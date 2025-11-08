@@ -53,4 +53,5 @@ app.initializers.add('afrux-asirem', () => {
   });
 
   override(TagsPage.prototype, 'view', AsiremTagsPage.prototype.view);
+  override(TagsPage.prototype, 'oninit', AsiremTagsPage.prototype.oninit);
 });

@@ -13,6 +13,13 @@ namespace Afrux\Asirem;
 
 use Flarum\Extend;
 use Flarum\Frontend\Document;
+use Flarum\Tags\Api\Serializer\TagSerializer;
+use Flarum\Api\Serializer\DiscussionSerializer;
+use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Tags\Api\Controller\ListTagsController;
+use Flarum\Tags\Tag;
+use Flarum\Discussion\DiscussionRepository;
+use Flarum\Discussion\Discussion;
 
 return [
     new \Afrux\ThemeBase\Extend\Init('afrux-asirem'),
@@ -42,4 +49,34 @@ return [
         ->namespace("afrux-asirem", __DIR__."/views"),
 
     new Extend\Locales(__DIR__.'/locale'),
+
+    (new Extend\ApiSerializer(TagSerializer::class))
+        ->hasOne('lastPostedDiscussion', DiscussionSerializer::class)
+        ->attribute('unreadCount', function (TagSerializer $serializer, Tag $tag) {
+        $actor = $serializer->getActor();
+        if (!$actor || !$actor->exists) {
+            return 0;
+        }
+
+        $discussionRepository = resolve(DiscussionRepository::class);
+        $readIdsQuery = $discussionRepository->getReadIdsQuery($actor);
+
+        return Discussion::query()
+            ->whereVisibleTo($actor)
+            ->whereHas('tags', function ($q) use ($tag) {
+                $q->where('id', $tag->id);
+            })
+            ->where(function ($q) use ($readIdsQuery, $actor) {
+                $q->whereNotIn('id', $readIdsQuery)
+                  ->where('last_posted_at', '>', $actor->marked_all_as_read_at ?: 0);
+            })
+            ->distinct()
+            ->count('id');
+    }),
+
+    (new Extend\ApiSerializer(DiscussionSerializer::class))
+        ->hasOne('lastPostedUser', UserSerializer::class),
+
+    (new Extend\ApiController(ListTagsController::class))
+        ->addInclude('lastPostedDiscussion.lastPostedUser'),
 ];

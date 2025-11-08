@@ -2,7 +2,6 @@
   padding: 0;
   margin: 0;
   list-style: none;
-  display: grid;
   grid-template-columns: repeat(2, 50%);
   gap: 8px;
 
@@ -16,9 +15,33 @@
   --tag-color: @control-color;
   .asirem-border-radius(~".Asirem-TagTile-icon .icon");
   display: flex;
+  position: relative;
+
+  &-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  &-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--tag-bg); // @highlight-color; // or use a color like #e74c3c
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--primary-color);
+    flex-shrink: 0;
+  }
 
   &.colored {
     --tag-color: @body-bg;
+    margin: 8px;
   }
 
   &:not(.colored) &-icon .icon {
@@ -28,10 +51,13 @@
   &-content {
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
   }
 
   &-name {
     margin: 0;
+    color: var(--heading-color);
   }
 
   &-info {
@@ -39,12 +65,19 @@
     display: grid;
     grid-template-columns: 88px 1fr;
     color: var(--tag-color);
-    background: var(--tag-bg);
+    background: var(--body-bg-shaded);
     border-radius: @border-radius;
     padding: 16px 16px 16px 0;
+    min-width: 0;
+    overflow: hidden;
 
     &:hover {
       text-decoration: none;
+    }
+
+    @media @phone {
+      grid-template-columns: 70px 1fr;
+      padding: 12px 12px 12px 0;
     }
   }
 
@@ -61,24 +94,83 @@
     }
   }
 
+
+  &-lastPosterIcon {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    .icon {
+      .asirem-icon-block(25px);
+      font-size: 28px;
+      background-color: @body-bg;
+      color: var(--tag-bg);
+    }
+
+    .Avatar {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+      font-weight: bold;
+      font-size: 14px;
+      color: @heading-color; // white text on colored background
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none !important;
+    }
+
+    span.Avatar {
+      text-decoration: none !important;
+    }
+
+    &:hover span.Avatar {
+      text-decoration: none !important;
+    }
+  }
+
+  &-description {
+      color: var(--muted-more-color);
+  }
+
   &-lastPostedDiscussion {
     margin-top: auto;
     font-weight: bold;
-    color: var(--tag-color);
+    color: var(--muted-more-color);
     opacity: 0.6;
-    display: grid;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
     grid-template-columns: auto auto;
+    min-width: 0;
 
     &-title {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       display: block;
+      min-width: 0;
+      flex: 1;
+    }
+
+    &-link {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: block;
+      min-width: 0;
+      flex: 1;
+      color: var(--muted-more-color);
     }
 
     time {
       margin-left: auto;
       font-style: italic;
+      flex-shrink: 0;
     }
   }
 
