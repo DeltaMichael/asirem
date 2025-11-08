@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Afrux\Asirem;
+namespace Deltamichael\Asirem;
 
 use Flarum\Extend;
 use Flarum\Frontend\Document;

@@ -34,12 +34,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Afrux\\Asirem\\": "src/"
+            "Deltamichael\\Asirem\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Afrux\\Asirem\\Tests\\": "tests/"
+            "Deltamichael\\Asirem\\Tests\\": "tests/"
         }
     },
     "extra": {
