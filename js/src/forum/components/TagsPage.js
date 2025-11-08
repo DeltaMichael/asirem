@@ -25,8 +25,9 @@ export default class TagsPage {
       return <LoadingIndicator />;
     }
 
-    const pinned = this.tags.filter((tag) => tag.position() !== null).sort((a, b) => a.position() - b.position());;
+    const pinned = this.tags.filter((tag) => tag.position() !== null).sort((a, b) => a.position() - b.position());
     const cloud = this.tags.filter((tag) => tag.position() === null);
+    console.log(pinned);
 
     return (
       <div className="Asirem-TagsPage">

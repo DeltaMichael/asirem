@@ -22,7 +22,7 @@ use Flarum\Discussion\DiscussionRepository;
 use Flarum\Discussion\Discussion;
 
 return [
-    new \Afrux\ThemeBase\Extend\Init('afrux-asirem'),
+    new \Afrux\ThemeBase\Extend\Init('deltamichael-asirem'),
     new \Afrux\ThemeBase\Extend\Footer,
     new \Afrux\ThemeBase\Extend\UploadableBanner,
     new \Afrux\ThemeBase\Extend\ExposeLaravelVersionToDashboard,
@@ -42,11 +42,11 @@ return [
         ->js(__DIR__.'/js/dist/admin.js')
         ->css(__DIR__.'/less/admin.less')
         ->content(function (Document $document) {
-            $document->layoutView = "afrux-asirem::frontend.admin";
+            $document->layoutView = "deltamichael-asirem::frontend.admin";
         }),
 
     (new Extend\View)
-        ->namespace("afrux-asirem", __DIR__."/views"),
+        ->namespace("deltamichael-asirem", __DIR__."/views"),
 
     new Extend\Locales(__DIR__.'/locale'),
 

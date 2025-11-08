@@ -3,7 +3,7 @@ import PermissionsPage from 'flarum/admin/components/PermissionsPage';
 import PermissionGrid from 'flarum/admin/components/PermissionGrid';
 
 app.initializers.add(
-  'afrux-asirem',
+  'deltamichael-asirem',
   (app) => {
     extend(PermissionsPage.prototype, 'content', function (vnode) {
       if (vnode && vnode[0] && vnode[0].children && vnode[0].children[1]) {
