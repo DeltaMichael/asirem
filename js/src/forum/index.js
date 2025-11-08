@@ -6,7 +6,7 @@ import { truncate } from 'flarum/utils/string';
 
 import Footer from 'flarum/extensions/afrux-theme-base/forum/components/Footer';
 
-app.initializers.add('afrux-asirem', () => {
+app.initializers.add('deltamichael-asirem', () => {
   extend(DiscussionListItem.prototype, 'view', function (vnode) {
     const discussionListItemContent = vnode.children.find(
       (e) => e && e.tag === 'div' && e.attrs && e.attrs.className.includes('DiscussionListItem-content')
