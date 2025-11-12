@@ -14,13 +14,14 @@
 
   @control-bg:                     hsl(@secondary-hue, min(50%, @secondary-sat), 93%);
   @control-color:                  @muted-color;
+  @control-bg-hover:               fade(darken(@control-bg, 5%), 90%);
   @control-danger-bg:              #fdd;
   @control-danger-color:           #d66;
 
   @overlay-bg:                     fade(@secondary-color, 90%);
 
   @code-bg:                        darken(@body-bg, 3%);
-  @code-color:                     lighten(@text-color, 30%);
+  @code-color:                     lighten(@text-color, 10%);
 }
 .define-colors(true) {
   @primary-color:                  @config-primary-color;
@@ -35,6 +36,7 @@
   @shadow-color:                   rgba(0, 0, 0, 0.5);
 
   @control-bg:                     hsl(@secondary-hue, min(20%, @secondary-sat), 10%);
+  @control-bg-hover:               fade(darken(@control-bg, 5%), 90%);
   @control-color:                  @muted-color;
   @control-danger-bg:              #411;
   @control-danger-color:           #a88;

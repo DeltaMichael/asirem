@@ -65,7 +65,7 @@
     display: grid;
     grid-template-columns: 88px 1fr;
     color: var(--tag-color);
-    background: var(--body-bg-shaded);
+    background: @control-bg;
     border-radius: @border-radius;
     padding: 16px 16px 16px 0;
     min-width: 0;
@@ -73,6 +73,7 @@
 
     &:hover {
       text-decoration: none;
+      background: @control-bg-hover;
     }
 
     @media @phone {
@@ -99,6 +100,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    opacity: 1;
 
     .icon {
       .asirem-icon-block(25px);
@@ -116,7 +118,8 @@
       background-position: center;
       font-weight: bold;
       font-size: 14px;
-      color: @heading-color; // white text on colored background
+      color: @muted-more-color; // white text on colored background
+      text-align: center;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -133,14 +136,13 @@
   }
 
   &-description {
-      color: var(--muted-more-color);
+      color: @muted-color;
   }
 
   &-lastPostedDiscussion {
     margin-top: auto;
     font-weight: bold;
-    color: var(--muted-more-color);
-    opacity: 0.6;
+    color: @muted-color;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -155,6 +157,7 @@
       display: block;
       min-width: 0;
       flex: 1;
+      opacity: 0.8;
     }
 
     &-link {
@@ -164,7 +167,7 @@
       display: block;
       min-width: 0;
       flex: 1;
-      color: var(--muted-more-color);
+      color: @text-color;
     }
 
     time {
