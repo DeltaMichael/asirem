@@ -10,6 +10,7 @@ export default class SignupPage extends Component {
         this.email = Stream('');
         this.password = Stream('');
         this.loading = false;
+        this.success = false;
         this.error = null;
     }
 
@@ -100,11 +101,18 @@ export default class SignupPage extends Component {
                     }
                 }
             }
-        }).then(() => {
-            m.route.set(app.route('index'));
+        })
+        .then(() => {
+            return app.session.login({
+                identification: this.email(),
+                password: this.password(),
+            }); 
+        })
+        .then(() => {
+            window.location.href = '/';
         }).catch((e) => {
             this.loading = false;
-            this.error = e.response?.errors?.[0]?.detail || 'Sign up failed.';
+            this.error = e.response?.errors?.[0]?.detail || 'Регистрацията не беше успешна ;(';
             m.redraw();
         });
     }
