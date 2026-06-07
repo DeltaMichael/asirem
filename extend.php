@@ -79,4 +79,10 @@ return [
 
     (new Extend\ApiController(ListTagsController::class))
         ->addInclude('lastPostedDiscussion.lastPostedUser'),
+
+    (new Extend\ServiceProvider)
+    ->register(Provider\ForumFrontendProvider::class),
+
+    (new Extend\Routes('forum'))
+    ->get('/signup', 'deltamichael-asirem.signup', Controller\SignupController::class),
 ];
