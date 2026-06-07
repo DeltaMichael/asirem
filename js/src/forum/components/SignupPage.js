@@ -5,6 +5,12 @@ import Stream from 'flarum/common/utils/Stream';
 export default class SignupPage extends Component {
     oninit(vnode) {
         super.oninit(vnode);
+
+        if (app.session.user) {
+            m.route.set(app.route('index'));
+            return;
+        }
+
         this.username = Stream('');
         this.nickname = Stream('');
         this.email = Stream('');
