@@ -17,3 +17,13 @@ deltamichael-asirem:
       conversations_title: Включи се в разговор
       conversations_description: Виж какво се обсъжда и добави мнението си към актуална тема.
       conversations_link: Към последните теми
+    featured:
+      title: Избрани теми
+      description: Подбрани от модераторите
+      view_all: Виж всички теми
+      one_reply: отговор
+      many_replies: отговора
+      photos: снимки
+      previous: Предишна избрана тема
+      next: Следваща избрана тема
+      counter: '{current} от {total}'

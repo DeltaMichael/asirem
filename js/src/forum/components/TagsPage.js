@@ -7,17 +7,30 @@ import humanTime from 'flarum/helpers/humanTime';
 import tagIcon from 'flarum/tags/common/helpers/tagIcon';
 import tagLabel from 'flarum/tags/common/helpers/tagLabel';
 import sortTags from 'flarum/tags/common/utils/sortTags';
+import FeaturedDiscussions, { getSuperStickyDiscussions } from './FeaturedDiscussions';
 
 export default class TagsPage {
 
   oninit() {
     this.loading = true;
-    app.store.find('tags', { include: 'lastPostedDiscussion,lastPostedDiscussion.lastPostedUser' })
-      .then(tags => {
-        this.tags = tags;
-        this.loading = false;
-        m.redraw();
-      });
+    this.featuredDiscussions = [];
+
+    Promise.all([
+      app.store.find('tags', { include: 'lastPostedDiscussion,lastPostedDiscussion.lastPostedUser' })
+        .then((tags) => {
+          this.tags = tags;
+        }),
+      app.store.find('discussions', { sort: '-lastPostedAt', page: { limit: 20 }, include: 'tags,firstPost' })
+        .then((discussions) => {
+          this.featuredDiscussions = getSuperStickyDiscussions(discussions);
+        })
+        .catch(() => {
+          this.featuredDiscussions = [];
+        }),
+    ]).then(() => {
+      this.loading = false;
+      m.redraw();
+    });
   }
 
   view() {
@@ -37,6 +50,7 @@ export default class TagsPage {
           </nav>
 
           <div className="TagsPage-content sideNavOffset">
+            {this.featuredDiscussions.length > 0 && <FeaturedDiscussions discussions={this.featuredDiscussions} />}
             <ul className="Asirem-TagTiles">
               {pinned.map((tag) => {
                 const lastPostedDiscussion = tag.lastPostedDiscussion();

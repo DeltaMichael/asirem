@@ -17,3 +17,13 @@ deltamichael-asirem:
       conversations_title: Join a conversation
       conversations_description: Catch up on what's happening and add your voice to a current discussion.
       conversations_link: See latest discussions
+    featured:
+      title: Featured discussions
+      description: Chosen by the moderators
+      view_all: See all discussions
+      one_reply: reply
+      many_replies: replies
+      photos: photos
+      previous: Previous featured discussion
+      next: Next featured discussion
+      counter: '{current} of {total}'
