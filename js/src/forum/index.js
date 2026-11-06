@@ -6,7 +6,6 @@ import TagsPage from 'flarum/tags/components/TagsPage';
 import AsiremTagsPage from './components/TagsPage';
 import SignupPage from './components/SignupPage';
 import StartPage from './components/StartPage';
-import FeaturedDiscussions, { getSuperStickyDiscussions } from './components/FeaturedDiscussions';
 import { truncate } from 'flarum/utils/string';
 
 import Footer from 'flarum/extensions/afrux-theme-base/forum/components/Footer';
@@ -20,14 +19,6 @@ app.initializers.add('deltamichael-asirem', () => {
       </LinkButton>,
       110
     );
-  });
-
-  extend(IndexPage.prototype, 'contentItems', function (items) {
-    const featuredDiscussions = getSuperStickyDiscussions(app.discussions.getPages().flatMap((page) => page.items));
-
-    if (featuredDiscussions.length) {
-      items.add('featuredDiscussions', <FeaturedDiscussions discussions={featuredDiscussions} />, 110);
-    }
   });
 
   extend(DiscussionListItem.prototype, 'view', function (vnode) {
