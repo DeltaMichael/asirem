@@ -84,5 +84,6 @@ return [
     ->register(Provider\ForumFrontendProvider::class),
 
     (new Extend\Routes('forum'))
-    ->get('/signup', 'deltamichael-asirem.signup', Controller\SignupController::class),
+        ->get('/signup', 'deltamichael-asirem.signup', Controller\SignupController::class)
+        ->get('/start', 'deltamichael-asirem.start', Controller\SignupController::class),
 ];
