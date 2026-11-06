@@ -9,9 +9,18 @@
 
   &Item {
     background: @control-bg;
-    margin: 0 0 4px;
+    margin: 0 0 8px;
     padding: 0;
     border-radius: @border-radius;
+    border: 1px solid @asirem-surface-border;
+    box-shadow: 0 1px 2px fade(@shadow-color, 6%);
+    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      border-color: fade(@primary-color, 28%);
+      box-shadow: @asirem-surface-shadow;
+    }
 
     &-controls .Dropdown-toggle {
       border-radius: @border-radius;
@@ -73,8 +82,9 @@
 }
 
 .TagsLabel .TagLabel:not(.overspecifying__) {
-  border-radius: @border-radius;
+  border-radius: 999px;
   margin-right: 5px;
+  padding: 4px 8px;
   font-size: 11px;
 }
 
@@ -98,6 +108,9 @@
 
     &-title {
       color: @text-color !important;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.4;
     }
 
     &-main {
@@ -137,7 +150,7 @@
 
     &-content {
       display: flex;
-      padding: 12px;
+      padding: 14px 16px;
     }
 
     &-stats {

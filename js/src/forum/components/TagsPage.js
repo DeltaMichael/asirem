@@ -55,7 +55,12 @@ export default class TagsPage {
 
                 return (
                   <li className={'Asirem-TagTile ' + (tag.color() ? 'colored' : '')} style={{ '--tag-bg': tag.color() }}>
-                    <div className="Asirem-TagTile-badge">{unread > 0 && <span className="Asirem-TagTile-dot"></span>}{unread > 0 && (unread >= 20 ? '20+' : unread)}</div>
+                    {unread > 0 && (
+                      <div className="Asirem-TagTile-badge">
+                        <span className="Asirem-TagTile-dot"></span>
+                        {unread >= 20 ? '20+' : unread}
+                      </div>
+                    )}
 
                     <Link className="Asirem-TagTile-info" href={app.route.tag(tag)}>
                       <div className="Asirem-TagTile-icon">{tagIconNode}</div>

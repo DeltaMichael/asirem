@@ -1,8 +1,9 @@
 .Hero {
   z-index: 0;
-  margin: 15px auto 0;
+  margin: 20px auto 0;
   max-width: @screen-desktop-hd;
   border-radius: @border-radius;
+  box-shadow: @asirem-surface-shadow;
 
   @media @desktop {
     max-width: @screen-desktop;
@@ -21,13 +22,13 @@
     --banner-position: center;
     background-image: var(--banner-url);
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
     background-position: var(--banner-position);
     color: #fff;
   }
 
   .container {
-    padding: 30px;
+    padding: 32px;
   }
 
   + .container {
