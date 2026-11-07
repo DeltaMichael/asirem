@@ -18,7 +18,7 @@
           display: grid;
           grid-template-columns: var(--icon-size) 1fr;
           align-items: center;
-          border-radius: 25px;
+          border-radius: @border-radius;
           transition: background-color 0.4s, color 0.4s;
           font-size: 14px;
           grid-gap: 10px;
@@ -40,6 +40,7 @@
         &.active {
           > a {
             background-color: @primary-bg;
+            font-weight: 600;
 
             .Button-icon {
               background-color: @body-bg;

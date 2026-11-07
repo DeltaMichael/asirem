@@ -1,13 +1,50 @@
 import { extend, override } from 'flarum/common/extend';
 import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
+import IndexPage from 'flarum/forum/components/IndexPage';
+import LinkButton from 'flarum/common/components/LinkButton';
 import TagsPage from 'flarum/tags/components/TagsPage';
+import TagHero from 'flarum/tags/components/TagHero';
 import AsiremTagsPage from './components/TagsPage';
 import SignupPage from './components/SignupPage';
+import StartPage from './components/StartPage';
 import { truncate } from 'flarum/utils/string';
 
 import Footer from 'flarum/extensions/afrux-theme-base/forum/components/Footer';
 
 app.initializers.add('deltamichael-asirem', () => {
+  extend(TagHero.prototype, 'viewItems', function (items) {
+    const imageUrl = this.attrs.model.attribute('asiremArtworkUrl');
+
+    if (imageUrl) {
+      items.add('asiremArtwork', <img className="Asirem-TagHero-artwork" src={imageUrl} alt="" />, 70);
+    }
+  });
+
+  extend(IndexPage.prototype, 'navItems', function (items) {
+    items.add(
+      'startHere',
+      <LinkButton href={app.route('start')} icon="fas fa-compass">
+        {app.translator.trans('deltamichael-asirem.forum.start.nav')}
+      </LinkButton>,
+      110
+    );
+  });
+
+  extend(IndexPage.prototype, 'contentItems', function (items) {
+    const sidebarItems = this.sidebarItems();
+    const statisticsWidget = sidebarItems.has('forumStatisticsWidget') ? sidebarItems.get('forumStatisticsWidget') : null;
+
+    if (statisticsWidget) {
+      items.add(
+        'asiremMobileForumStatistics',
+        <div className="Asirem-MobileForumStatistics">
+          {m(statisticsWidget.tag, statisticsWidget.attrs, statisticsWidget.children)}
+        </div>,
+        80
+      );
+    }
+  });
+
   extend(DiscussionListItem.prototype, 'view', function (vnode) {
     const discussionListItemContent = vnode.children.find(
       (e) => e && e.tag === 'div' && e.attrs && e.attrs.className.includes('DiscussionListItem-content')
@@ -57,5 +94,6 @@ app.initializers.add('deltamichael-asirem', () => {
   override(TagsPage.prototype, 'oninit', AsiremTagsPage.prototype.oninit);
 
   app.routes['signup'] = { path: '/signup', component: SignupPage };
+  app.routes['start'] = { path: '/start', component: StartPage };
 
 });

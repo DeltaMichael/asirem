@@ -4,19 +4,19 @@
   @primary-color:                  @config-primary-color;
   @secondary-color:                @config-secondary-color;
 
-  @body-bg:                        #fff;
-  @text-color:                     #111;
+  @body-bg:                        @asirem-light-canvas-bg;
+  @text-color:                     #1b2923;
   @link-color:                     saturate(@primary-color, 10%);
   @heading-color:                  @text-color;
-  @muted-color:                    hsl(@secondary-hue, min(20%, @secondary-sat), 50%);
-  @muted-more-color:               #aaa;
-  @shadow-color:                   rgba(0, 0, 0, 0.35);
+  @muted-color:                    hsl(@secondary-hue, min(20%, @secondary-sat), 42%);
+  @muted-more-color:               #a8b8b0;
+  @shadow-color:                   rgba(30, 55, 43, 0.22);
 
-  @control-bg:                     hsl(@secondary-hue, min(50%, @secondary-sat), 93%);
+  @control-bg:                     @asirem-light-surface-bg;
   @control-color:                  @muted-color;
-  @control-bg-hover:               fade(darken(@control-bg, 5%), 90%);
-  @control-danger-bg:              #fdd;
-  @control-danger-color:           #d66;
+  @control-bg-hover:               @asirem-light-control-hover-bg;
+  @control-danger-bg:              #fff0ed;
+  @control-danger-color:           #b5473f;
 
   @overlay-bg:                     fade(@secondary-color, 90%);
 
@@ -52,6 +52,8 @@
 @import "forum/Hero.less";
 @import "forum/Post.less";
 @import "forum/TagsPage.less";
+@import "forum/FeaturedDiscussions.less";
+@import "forum/StartPage.less";
 @import "forum/SignupPage.less";
 @import "forum/sideNav.less";
 @import "forum/Footer.less";

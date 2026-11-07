@@ -1,0 +1,38 @@
+deltamichael-asirem:
+  admin:
+    tag_artwork:
+      label: Tag banner artwork
+      help: 'Choose a JPEG, PNG, GIF or BMP image up to 2 MB. It will be cropped to a square.'
+      save_first: Save this tag first, then edit it to add artwork.
+      upload: Choose tag banner artwork
+      remove: Remove artwork
+      loading: Saving artwork...
+      error: Could not save artwork. Check the image and try again.
+  forum:
+    start:
+      nav: Start here
+      eyebrow: New to BWS?
+      title: Start here
+      description: Find your topics, get to know the community, and join the conversation.
+      browse_discussions: Browse latest discussions
+      create_account: Create your account
+      browse_tags: Browse all tags
+      rules_title: Get to know the rules
+      rules_description: A quick look at the community guidelines helps keep discussions welcoming for everyone.
+      rules_link: Read the rules
+      tags_title: Find your corner
+      tags_description: Explore WWE, AEW, Bulgarian wrestling, and everything else the community follows.
+      tags_link: Explore tags
+      conversations_title: Join a conversation
+      conversations_description: Catch up on what's happening and add your voice to a current discussion.
+      conversations_link: See latest discussions
+    featured:
+      title: Featured discussions
+      description: Chosen by the moderators
+      view_all: See all discussions
+      one_reply: reply
+      many_replies: replies
+      photos: photos
+      previous: Previous featured discussion
+      next: Next featured discussion
+      counter: '{current} of {total}'

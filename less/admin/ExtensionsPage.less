@@ -7,13 +7,17 @@
   --icon-size: 48px;
   padding: 6px 18px 6px 6px;
   border-radius: @border-radius;
-  transition: border-color 0.4s, background-color 0.4s;
+  border: 1px solid transparent;
+  transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
   color: inherit;
   .asirem-border-radius(~'.ExtensionIcon');
 
   &:hover {
     text-decoration: none;
     background-color: @control-bg;
+    border-color: @asirem-surface-border;
+    box-shadow: @asirem-surface-shadow;
+    transform: translateY(-1px);
   }
 
   &-icon {

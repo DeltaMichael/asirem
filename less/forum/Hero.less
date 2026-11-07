@@ -1,8 +1,9 @@
 .Hero {
   z-index: 0;
-  margin: 15px auto 0;
+  margin: 20px auto 0;
   max-width: @screen-desktop-hd;
   border-radius: @border-radius;
+  box-shadow: @asirem-surface-shadow;
 
   @media @desktop {
     max-width: @screen-desktop;
@@ -21,13 +22,13 @@
     --banner-position: center;
     background-image: var(--banner-url);
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
     background-position: var(--banner-position);
     color: #fff;
   }
 
   .container {
-    padding: 30px;
+    padding: 32px;
   }
 
   + .container {
@@ -37,4 +38,130 @@
 
 .darkenBackground {
   border-radius: @border-radius;
+}
+
+.WelcomeHero {
+  text-align: left;
+
+  .containerNarrow {
+    max-width: 720px;
+    margin: 0;
+  }
+
+  .Hero-title {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .Hero-subtitle {
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  &.Hero--banner {
+    position: relative;
+    isolation: isolate;
+    color: #fff;
+
+    &::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      border-radius: inherit;
+      background: rgba(0, 0, 0, 0.55);
+      content: '';
+    }
+  }
+
+  @media @phone {
+    .container {
+      padding: 24px 20px;
+    }
+
+    .Hero-title {
+      font-size: 22px;
+    }
+  }
+}
+
+.TagHero > .container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  text-align: left;
+
+  .containerNarrow {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    margin: 0;
+  }
+
+  .Hero-title {
+    margin: 0 0 8px;
+    overflow-wrap: anywhere;
+  }
+
+  .Hero-subtitle {
+    max-width: 640px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  @media @phone {
+    gap: 16px;
+    padding: 20px;
+
+    .Hero-title {
+      font-size: 20px;
+    }
+  }
+}
+
+.TagHero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid @asirem-surface-border;
+  background: @control-bg;
+  color: @text-color;
+
+  &--colored {
+    &::before {
+      position: absolute;
+      inset: 0 auto 0 0;
+      z-index: 0;
+      width: 56%;
+      background: linear-gradient(90deg, var(--hero-bg), transparent);
+      opacity: 0.18;
+      content: '';
+    }
+  }
+}
+
+.Asirem-TagHero-artwork {
+  display: block;
+  flex: 0 0 128px;
+  width: 128px;
+  height: 128px;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  border: 4px solid @control-bg;
+  border-radius: @asirem-border-radius-a;
+  box-shadow: 0 0 0 2px var(--hero-bg), 0 0 0 5px @control-bg;
+  object-fit: cover;
+
+  @media @phone {
+    flex-basis: 64px;
+    width: 64px;
+    height: 64px;
+    border-width: 3px;
+    box-shadow: 0 0 0 2px var(--hero-bg), 0 0 0 4px @control-bg;
+  }
 }

@@ -2,8 +2,8 @@
   padding: 0;
   margin: 0;
   list-style: none;
-  grid-template-columns: repeat(2, 50%);
-  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 
   @media @phone {
     grid-template-columns: 100%;
@@ -19,29 +19,44 @@
 
   &-badge {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 12px;
+    right: 12px;
     z-index: 10;
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 14px;
+    gap: 6px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    background: @control-bg;
+    border: 1px solid fade(@primary-color, 30%);
+    color: @text-color;
+    font-size: 12px;
     font-weight: bold;
+    line-height: 1.2;
+    box-shadow: 0 2px 6px fade(@shadow-color, 16%);
   }
 
   &-dot {
     display: inline-block;
     width: 8px;
     height: 8px;
-    background-color: var(--tag-bg); // @highlight-color; // or use a color like #e74c3c
+    background-color: @primary-color;
     border-radius: 50%;
-    box-shadow: 0 0 0 2px var(--primary-color);
+    box-shadow: 0 0 0 2px @control-bg;
     flex-shrink: 0;
   }
 
   &.colored {
     --tag-color: @body-bg;
-    margin: 8px;
+
+    .Asirem-TagTile-info {
+      border-top: 3px solid var(--tag-bg);
+    }
+
+    .Asirem-TagTile-icon .icon {
+      color: @body-bg;
+      background-color: var(--tag-bg);
+    }
   }
 
   &:not(.colored) &-icon .icon {
@@ -58,6 +73,7 @@
   &-name {
     margin: 0;
     color: var(--heading-color);
+    font-weight: 700;
   }
 
   &-info {
@@ -67,13 +83,18 @@
     color: var(--tag-color);
     background: @control-bg;
     border-radius: @border-radius;
+    border: 1px solid @asirem-surface-border;
+    box-shadow: 0 1px 2px fade(@shadow-color, 6%);
     padding: 16px 16px 16px 0;
     min-width: 0;
     overflow: hidden;
+    transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 
     &:hover {
       text-decoration: none;
       background: @control-bg-hover;
+      transform: translateY(-2px);
+      box-shadow: @asirem-surface-shadow;
     }
 
     @media @phone {
@@ -185,4 +206,11 @@
 .Asirem-TagCloud {
   text-align: center;
   margin: 16px 0;
+
+  .TagLabel {
+    display: inline-flex;
+    margin: 4px;
+    padding: 6px 10px;
+    border-radius: 999px;
+  }
 }
