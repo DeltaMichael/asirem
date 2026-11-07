@@ -12,6 +12,8 @@ use Flarum\Tags\Tag;
 
 return [
     (new Extend\Frontend('forum'))
+        ->removeRoute('tags')
+        ->route('/tags', 'tags', Content\Tags::class)
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less')
         ->route('/signup', 'signup')
@@ -63,6 +65,9 @@ return [
                             ->distinct()
                             ->count('id');
                     }),
+                        Schema\Relationship\ToOne::make('lastPostedUser')
+                            ->type('users')
+                            ->includable(),
             ];
         }),
 

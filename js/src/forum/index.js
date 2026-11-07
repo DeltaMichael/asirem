@@ -7,6 +7,7 @@ import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import LinkButton from 'flarum/common/components/LinkButton';
 import TagsPage from 'ext:flarum/tags/forum/components/TagsPage';
 import TagHero from 'ext:flarum/tags/forum/components/TagHero';
+import sortTags from 'ext:flarum/tags/common/utils/sortTags';
 import AsiremTagsPage from './components/TagsPage';
 import { getSuperStickyDiscussions } from './components/FeaturedDiscussions';
 import SignupPage from './components/SignupPage';
@@ -71,6 +72,14 @@ app.initializers.add('deltamichael-asirem', () => {
 
   extend(TagsPage.prototype, 'oninit', function () {
     this.featuredDiscussions = [];
+
+    app.tagList
+      .load(['lastPostedUser'])
+      .then((tags) => {
+        this.tags = sortTags(tags.filter((tag) => !tag.isChild()));
+        m.redraw();
+      })
+      .catch(() => {});
 
     app.store
       .find('discussions', {

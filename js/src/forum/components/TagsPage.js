@@ -16,8 +16,9 @@ export default class TagsPage {
       return <LoadingIndicator />;
     }
 
-    const pinned = this.tags.filter((tag) => tag.position() !== null).sort((a, b) => a.position() - b.position());
-    const cloud = this.tags.filter((tag) => tag.position() === null);
+    const tags = this.tags.map((tag) => app.store.getById('tags', tag.id()) || tag);
+    const pinned = tags.filter((tag) => tag.position() !== null).sort((a, b) => a.position() - b.position());
+    const cloud = tags.filter((tag) => tag.position() === null);
     const statisticsWidget = app.widgets.get('end')?.find((widget) => widget.key === 'forumStatistics');
 
     return (
@@ -31,7 +32,8 @@ export default class TagsPage {
               const tagIconNode = tagIcon(tag, {}, { useColor: false });
 
               const unread = tag.attribute('unreadCount');
-              const user = lastPostedDiscussion?.lastPostedUser();
+              const lastPostedUserId = tag.data.relationships?.lastPostedUser?.data?.id;
+              const user = lastPostedUserId ? app.store.getById('users', lastPostedUserId) : null;
               if (tagIconNode.attrs.style && tagIconNode.attrs.style.backgroundColor) {
                 delete tagIconNode.attrs.style.backgroundColor;
               }
