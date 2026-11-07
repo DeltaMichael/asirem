@@ -1,16 +1,10 @@
 @alert-info-bg: #aecbff;
 @alert-info-color: #006dad;
 
-@admin-page-bg: if(@config-dark-mode, @body-bg, @asirem-light-canvas-bg);
-@admin-control-bg: if(@config-dark-mode, @control-bg, @asirem-light-surface-bg);
-@admin-control-hover-bg: if(@config-dark-mode, darken(@control-bg, 5%), @asirem-light-control-hover-bg);
-
-:root {
-  --control-bg: @admin-control-bg;
-  --control-color: @control-color;
-  --control-bg-hover: @admin-control-hover-bg;
-}
+@admin-page-bg: var(--body-bg);
+@admin-control-bg: var(--control-bg);
+@admin-control-hover-bg: var(--control-bg-shaded);
 
 body {
-  background-color: @admin-page-bg;
+  background-color: var(--body-bg);
 }

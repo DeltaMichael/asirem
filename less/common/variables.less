@@ -2,45 +2,29 @@
 @asirem-border-radius-a:          ~"43% 57% 68% 32% / 33% 50% 50% 67%";
 @asirem-border-radius-b:          ~"42% 58% 33% 67% / 57% 49% 51% 43%";
 @asirem-border-radius-c:          ~"58% 42% 68% 32% / 48% 73% 27% 52%";
-@asirem-light-canvas-bg:           #f4f8f5;
-@asirem-light-surface-bg:          #fff;
-@asirem-light-control-hover-bg:    #eaf3ee;
 
-.define-asirem-colors(@config-dark-mode);
-.define-asirem-colors(false) {
-  @primary-bg:                    mix(@asirem-light-surface-bg, @primary-color, 90%);
-  @control-bg-light:              @asirem-light-control-hover-bg;
+@asirem-primary-bg:                      ~"color-mix(in srgb, var(--body-bg) 90%, var(--primary-color))";
+@asirem-body-bg:                         ~"var(--body-bg)";
+@asirem-text-color:                      ~"var(--text-color)";
+@asirem-heading-color:                   ~"var(--heading-color)";
+@asirem-muted-color:                     ~"var(--muted-color)";
+@asirem-muted-more-color:                ~"var(--muted-more-color)";
+@asirem-shadow-color:                    ~"var(--shadow-color)";
+@asirem-control-bg:                      ~"var(--control-bg)";
+@asirem-control-bg-light:                ~"var(--control-bg-light)";
+@asirem-control-bg-hover:                ~"var(--control-bg-shaded)";
+@asirem-control-color:                   ~"var(--control-color)";
+@asirem-control-danger-bg:               ~"var(--control-danger-bg)";
+@asirem-control-danger-color:            ~"var(--control-danger-color)";
+@asirem-overlay-bg:                      ~"var(--overlay-bg)";
+@asirem-code-bg:                         ~"var(--code-bg)";
+@asirem-code-color:                      ~"var(--code-color)";
+@asirem-admin-nav-bg:                    ~"var(--body-bg)";
+@asirem-admin-nav-color:                 ~"var(--control-color)";
+@unapproved-discussion-bg:        ~"color-mix(in srgb, var(--control-warning-bg) 45%, var(--control-bg))";
 
-  @unapproved-discussion-bg:      #fff1df;
-
-  :root {
-    --control-bg: @asirem-light-surface-bg;
-    --control-bg-hover: @asirem-light-control-hover-bg;
-  }
-
-  body {
-    background-color: @asirem-light-canvas-bg;
-  }
-}
-.define-asirem-colors(true) {
-  @primary-bg:                    mix(@body-bg, @primary-color, 90);
-  @control-bg-light:              darken(@control-bg, 6);
-
-  @unapproved-discussion-bg:      #1f1914;
-}
-
-.define-asirem-header(@config-colored-header);
-.define-asirem-header(false) {
-  @admin-nav-bg:                  @body-bg;
-  @admin-nav-color:               @control-color;
-}
-.define-asirem-header(true) {
-  @admin-nav-bg:                  @body-bg;
-  @admin-nav-color:               @control-color;
-}
-
-@asirem-box-shadow:               0 2px 6px fade(@shadow-color, 10%), 0 10px 24px fade(@shadow-color, 6%);
-@asirem-surface-border:           fade(@muted-more-color, 18%);
-@asirem-surface-shadow:           0 1px 2px fade(@shadow-color, 7%), 0 8px 24px fade(@shadow-color, 6%);
+@asirem-box-shadow:               ~"0 2px 6px color-mix(in srgb, var(--shadow-color) 10%, transparent), 0 10px 24px color-mix(in srgb, var(--shadow-color) 6%, transparent)";
+@asirem-surface-border:           ~"color-mix(in srgb, var(--muted-more-color) 18%, transparent)";
+@asirem-surface-shadow:           ~"0 1px 2px color-mix(in srgb, var(--shadow-color) 7%, transparent), 0 8px 24px color-mix(in srgb, var(--shadow-color) 6%, transparent)";
 
 @screen-desktop-hd:               1200px;

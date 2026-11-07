@@ -6,20 +6,16 @@
     ],
     "type": "flarum-extension",
     "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "flarum/core": "^2.0"
+    },
     "funding": [
         {
             "type": "other",
             "url": "https://www.buymeacoffee.com/sycho"
         }
     ],
-    "require": {
-        "flarum/core": "^1.8.0",
-        "afrux/flarum-theme-base": "^0.1.0"
-    },
-    "require-dev": {
-        "sycho/flarum-uikit": "0.1.x-dev",
-        "afrux/flarum-theme-base": "0.1.x-dev"
-    },
     "authors": [
         {
             "name": "Sami Mazouz",
@@ -44,7 +40,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1.x-dev"
+            "dev-flarum-2-port": "2.x-dev"
         },
         "flarum-extension": {
             "title": "Asirem",

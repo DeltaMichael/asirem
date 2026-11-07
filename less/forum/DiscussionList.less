@@ -8,12 +8,12 @@
   }
 
   &Item {
-    background: @control-bg;
+    background: @asirem-control-bg;
     margin: 0 0 8px;
     padding: 0;
     border-radius: @border-radius;
     border: 1px solid @asirem-surface-border;
-    box-shadow: 0 1px 2px fade(@shadow-color, 6%);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--shadow-color) 6%, transparent);
     transition: box-shadow 160ms ease, border-color 160ms ease;
 
     &:hover {
@@ -106,7 +106,7 @@
     }
 
     &-title {
-      color: @text-color !important;
+      color: @asirem-text-color !important;
       font-size: 15px;
       font-weight: 600;
       line-height: 1.4;
@@ -143,7 +143,7 @@
       }
 
       .Avatar {
-        .asirem-icon-block(50px, @body-bg);
+        .asirem-icon-block(50px, @asirem-body-bg);
       }
     }
 

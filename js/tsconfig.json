@@ -6,7 +6,7 @@
   // access to `dayjs` and `$` in the global namespace.
   "include": [
       "src/**/*",
-      "../vendor/*/*/js/dist-typings/@types/**/*",
+      "../../../vendor/*/*/js/dist-typings/@types/**/*",
 // <CUSTOM-1>
 // </CUSTOM-1>
       "@types/**/*"
@@ -14,9 +14,9 @@
   "compilerOptions": {
     // This will output typings to `dist-typings`
     "declarationDir": "./dist-typings",
-    "baseUrl": ".",
     "paths": {
-      "flarum/*": ["../vendor/flarum/core/js/dist-typings/*"],
+      "flarum/*": ["../../../vendor/flarum/core/js/dist-typings/*"],
+      "ext:flarum/tags/*": ["../../../vendor/flarum/tags/js/dist-typings/*"],
 // <CUSTOM-2>
 // </CUSTOM-2>
     }

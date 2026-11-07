@@ -2,25 +2,23 @@
 
 namespace Deltamichael\Asirem\Controller;
 
-use Flarum\Api\Controller\AbstractShowController;
 use Flarum\Foundation\ValidationException;
 use Flarum\Http\RequestUtil;
-use Flarum\Tags\Api\Serializer\TagSerializer;
 use Flarum\Tags\Tag;
 use Flarum\User\AvatarValidator;
 use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
+use Laminas\Diactoros\Response\JsonResponse;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
-use Tobscure\JsonApi\Document;
 
-class TagArtworkController extends AbstractShowController
+class TagArtworkController implements RequestHandlerInterface
 {
-    public $serializer = TagSerializer::class;
-
     protected $filesystem;
     protected $validator;
     protected $images;
@@ -32,7 +30,7 @@ class TagArtworkController extends AbstractShowController
         $this->images = $images;
     }
 
-    protected function data(ServerRequestInterface $request, Document $document)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         RequestUtil::getActor($request)->assertAdmin();
 
@@ -47,16 +45,18 @@ class TagArtworkController extends AbstractShowController
                 throw new ValidationException(['image' => 'An image file is required.']);
             }
 
-            $this->validator->assertValid(['avatar' => $file]);
-            $image = $this->images->make($file->getStream()->getMetadata('uri'));
+            $this->validator->assertImageValid('image', $file);
+            $image = $this->images->read($file->getStream()->getMetadata('uri'));
 
             if (extension_loaded('exif')) {
-                $image->orientate();
+                $image->orient();
             }
 
             $newPath = 'asirem-tag-'.$tag->id.'-'.Str::lower(Str::random(16)).'.png';
 
-            if (!$this->filesystem->put($newPath, (string) $image->fit(512, 512)->encode('png'))) {
+            $image->cover(512, 512);
+
+            if (!$this->filesystem->put($newPath, $image->toPng())) {
                 throw new RuntimeException('Unable to store tag artwork.');
             }
         }
@@ -76,6 +76,20 @@ class TagArtworkController extends AbstractShowController
             $this->filesystem->delete($previousPath);
         }
 
-        return $tag;
+        $artworkUrl = $tag->background_path;
+
+        if ($artworkUrl && preg_match('/\Aasirem-tag-[0-9]+-[a-z0-9]{16}\.png\z/', $artworkUrl)) {
+            $artworkUrl = $this->filesystem->url($artworkUrl);
+        }
+
+        return new JsonResponse([
+            'data' => [
+                'type' => 'tags',
+                'id' => (string) $tag->id,
+                'attributes' => [
+                    'asiremArtworkUrl' => $artworkUrl,
+                ],
+            ],
+        ], 200, ['Content-Type' => 'application/vnd.api+json']);
     }
 }

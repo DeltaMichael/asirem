@@ -54,7 +54,7 @@ export default class FeaturedDiscussions extends Component {
         if (!this.isPaused) {
           this.goToSlide(this.activeIndex + 1, true);
         }
-      }, 10000);
+      }, 5000);
     }
   }
 

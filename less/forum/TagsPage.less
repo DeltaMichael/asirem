@@ -11,8 +11,8 @@
 }
 
 .Asirem-TagTile {
-  --tag-bg: @control-bg;
-  --tag-color: @control-color;
+  --tag-bg: @asirem-control-bg;
+  --tag-color: @asirem-control-color;
   .asirem-border-radius(~".Asirem-TagTile-icon .icon");
   display: flex;
   position: relative;
@@ -27,13 +27,13 @@
     gap: 6px;
     padding: 4px 9px;
     border-radius: 999px;
-    background: @control-bg;
+    background: @asirem-control-bg;
     border: 1px solid fade(@primary-color, 30%);
-    color: @text-color;
+    color: @asirem-text-color;
     font-size: 12px;
     font-weight: bold;
     line-height: 1.2;
-    box-shadow: 0 2px 6px fade(@shadow-color, 16%);
+    box-shadow: 0 2px 6px color-mix(in srgb, var(--shadow-color) 16%, transparent);
   }
 
   &-dot {
@@ -42,19 +42,19 @@
     height: 8px;
     background-color: @primary-color;
     border-radius: 50%;
-    box-shadow: 0 0 0 2px @control-bg;
+    box-shadow: 0 0 0 2px @asirem-control-bg;
     flex-shrink: 0;
   }
 
   &.colored {
-    --tag-color: @body-bg;
+    --tag-color: @asirem-body-bg;
 
     .Asirem-TagTile-info {
       border-top: 3px solid var(--tag-bg);
     }
 
     .Asirem-TagTile-icon .icon {
-      color: @body-bg;
+      color: @asirem-body-bg;
       background-color: var(--tag-bg);
     }
   }
@@ -81,10 +81,10 @@
     display: grid;
     grid-template-columns: 88px 1fr;
     color: var(--tag-color);
-    background: @control-bg;
+    background: @asirem-control-bg;
     border-radius: @border-radius;
     border: 1px solid @asirem-surface-border;
-    box-shadow: 0 1px 2px fade(@shadow-color, 6%);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--shadow-color) 6%, transparent);
     padding: 16px 16px 16px 0;
     min-width: 0;
     overflow: hidden;
@@ -92,7 +92,7 @@
 
     &:hover {
       text-decoration: none;
-      background: @control-bg-hover;
+      background: @asirem-control-bg-hover;
       transform: translateY(-2px);
       box-shadow: @asirem-surface-shadow;
     }
@@ -111,7 +111,7 @@
     .icon {
       .asirem-icon-block(50px);
       font-size: 28px;
-      background-color: @body-bg;
+      background-color: @asirem-body-bg;
       color: var(--tag-bg);
     }
   }
@@ -126,7 +126,7 @@
     .icon {
       .asirem-icon-block(25px);
       font-size: 28px;
-      background-color: @body-bg;
+      background-color: @asirem-body-bg;
       color: var(--tag-bg);
     }
 
@@ -139,7 +139,7 @@
       background-position: center;
       // font-weight: bold;
       font-size: 14px;
-      color: #fff; // @muted-more-color; // white text on colored background
+      color: #fff; // @asirem-muted-more-color; // white text on colored background
       text-align: center;
       display: flex;
       justify-content: center;
@@ -157,13 +157,13 @@
   }
 
   &-description {
-      color: @muted-color;
+      color: @asirem-muted-color;
   }
 
   &-lastPostedDiscussion {
     margin-top: auto;
     font-weight: bold;
-    color: @muted-color;
+    color: @asirem-muted-color;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -188,7 +188,7 @@
       display: block;
       min-width: 0;
       flex: 1;
-      color: @text-color;
+      color: @asirem-text-color;
     }
 
     time {

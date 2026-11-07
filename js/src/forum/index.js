@@ -1,18 +1,17 @@
 import { extend, override } from 'flarum/common/extend';
 import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
-import IndexPage from 'flarum/forum/components/IndexPage';
+import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import LinkButton from 'flarum/common/components/LinkButton';
-import TagsPage from 'flarum/tags/components/TagsPage';
-import TagHero from 'flarum/tags/components/TagHero';
+import TagsPage from 'ext:flarum/tags/forum/components/TagsPage';
+import TagHero from 'ext:flarum/tags/forum/components/TagHero';
 import AsiremTagsPage from './components/TagsPage';
+import { getSuperStickyDiscussions } from './components/FeaturedDiscussions';
 import SignupPage from './components/SignupPage';
 import StartPage from './components/StartPage';
-import { truncate } from 'flarum/utils/string';
-
-import Footer from 'flarum/extensions/afrux-theme-base/forum/components/Footer';
+import { truncate } from 'flarum/common/utils/string';
 
 app.initializers.add('deltamichael-asirem', () => {
-  extend(TagHero.prototype, 'viewItems', function (items) {
+  extend(TagHero.prototype, 'bodyItems', function (items) {
     const imageUrl = this.attrs.model.attribute('asiremArtworkUrl');
 
     if (imageUrl) {
@@ -20,7 +19,7 @@ app.initializers.add('deltamichael-asirem', () => {
     }
   });
 
-  extend(IndexPage.prototype, 'navItems', function (items) {
+  extend(IndexSidebar.prototype, 'navItems', function (items) {
     items.add(
       'startHere',
       <LinkButton href={app.route('start')} icon="fas fa-compass">
@@ -30,19 +29,24 @@ app.initializers.add('deltamichael-asirem', () => {
     );
   });
 
-  extend(IndexPage.prototype, 'contentItems', function (items) {
-    const sidebarItems = this.sidebarItems();
-    const statisticsWidget = sidebarItems.has('forumStatisticsWidget') ? sidebarItems.get('forumStatisticsWidget') : null;
+  extend(TagsPage.prototype, 'oninit', function () {
+    this.featuredDiscussions = [];
 
-    if (statisticsWidget) {
-      items.add(
-        'asiremMobileForumStatistics',
-        <div className="Asirem-MobileForumStatistics">
-          {m(statisticsWidget.tag, statisticsWidget.attrs, statisticsWidget.children)}
-        </div>,
-        80
-      );
-    }
+    app.store
+      .find('discussions', {
+        filter: { stickiest: true },
+        sort: '-lastPostedAt',
+        page: { limit: 20 },
+        include: 'tags,firstPost',
+      })
+      .then((discussions) => {
+        this.featuredDiscussions = getSuperStickyDiscussions(discussions);
+        m.redraw();
+      })
+      .catch(() => {
+        this.featuredDiscussions = [];
+        m.redraw();
+      });
   });
 
   extend(DiscussionListItem.prototype, 'view', function (vnode) {
@@ -79,21 +83,8 @@ app.initializers.add('deltamichael-asirem', () => {
     }
   });
 
-  override(Footer.prototype, 'separator', function () {
-    return (
-      <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="288" className="Asirem-footerWaves">
-        <path
-          fill-opacity="1"
-          d="M0,224L18.5,186.7C36.9,149,74,75,111,58.7C147.7,43,185,85,222,112C258.5,139,295,149,332,154.7C369.2,160,406,160,443,149.3C480,139,517,117,554,101.3C590.8,85,628,75,665,96C701.5,117,738,171,775,165.3C812.3,160,849,96,886,101.3C923.1,107,960,181,997,218.7C1033.8,256,1071,256,1108,250.7C1144.6,245,1182,235,1218,202.7C1255.4,171,1292,117,1329,117.3C1366.2,117,1403,171,1422,197.3L1440,224L1440,320L1421.5,320C1403.1,320,1366,320,1329,320C1292.3,320,1255,320,1218,320C1181.5,320,1145,320,1108,320C1070.8,320,1034,320,997,320C960,320,923,320,886,320C849.2,320,812,320,775,320C738.5,320,702,320,665,320C627.7,320,591,320,554,320C516.9,320,480,320,443,320C406.2,320,369,320,332,320C295.4,320,258,320,222,320C184.6,320,148,320,111,320C73.8,320,37,320,18,320L0,320Z"
-        ></path>
-      </svg>
-    );
-  });
-
   override(TagsPage.prototype, 'view', AsiremTagsPage.prototype.view);
-  override(TagsPage.prototype, 'oninit', AsiremTagsPage.prototype.oninit);
 
   app.routes['signup'] = { path: '/signup', component: SignupPage };
   app.routes['start'] = { path: '/start', component: StartPage };
-
 });

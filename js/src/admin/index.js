@@ -1,7 +1,7 @@
-import { extend, override } from 'flarum/extend';
+import { extend, override } from 'flarum/common/extend';
 import PermissionsPage from 'flarum/admin/components/PermissionsPage';
 import PermissionGrid from 'flarum/admin/components/PermissionGrid';
-import EditTagModal from 'flarum/tags/admin/components/EditTagModal';
+import EditTagModal from 'ext:flarum/tags/admin/components/EditTagModal';
 import TagArtworkControl from './components/TagArtworkControl';
 
 app.initializers.add(
