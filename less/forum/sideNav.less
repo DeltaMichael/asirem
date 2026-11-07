@@ -66,6 +66,26 @@
           --size: 24px;
         }
       }
+
+      > li[class^="item-tag"]:not(.item-tags) {
+        .asirem-border-radius(~".Button-icon");
+
+        > a .Button-icon {
+          background-color: var(--color, @asirem-control-bg);
+          color: @asirem-body-bg;
+        }
+
+        > a .Button-icon.TagIcon {
+          width: 24px !important;
+          height: 24px !important;
+        }
+
+        &:hover > a .Button-icon,
+        &.active > a .Button-icon {
+          background-color: var(--color, @asirem-control-bg);
+        }
+      }
+
       > .Dropdown-separator {
         margin: 12px 0;
       }
