@@ -165,3 +165,21 @@
     box-shadow: 0 0 0 2px var(--hero-bg), 0 0 0 4px @asirem-control-bg;
   }
 }
+
+@media (min-width: 1440px) {
+  .Page.IndexPage[class*="IndexPage--tag"] .Page-hero > .TagHero {
+    max-width: 1300px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .Page.IndexPage[class*="IndexPage--tag"] .Page-hero > .TagHero {
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .Page.IndexPage[class*="IndexPage--tag"] .Page-hero > .TagHero {
+    max-width: none;
+  }
+}

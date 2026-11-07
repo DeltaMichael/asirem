@@ -36,3 +36,5 @@ deltamichael-asirem:
       previous: Previous featured discussion
       next: Next featured discussion
       counter: '{current} of {total}'
+    discussion:
+      copy_link: Copy discussion link

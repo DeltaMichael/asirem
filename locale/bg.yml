@@ -36,3 +36,5 @@ deltamichael-asirem:
       previous: Предишна избрана тема
       next: Следваща избрана тема
       counter: '{current} от {total}'
+    discussion:
+      copy_link: Копирай връзка към темата
