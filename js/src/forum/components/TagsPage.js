@@ -40,13 +40,15 @@ export default class TagsPage {
 
     const pinned = this.tags.filter((tag) => tag.position() !== null).sort((a, b) => a.position() - b.position());
     const cloud = this.tags.filter((tag) => tag.position() === null);
+    const sidebarItems = IndexPage.prototype.sidebarItems();
+    const statisticsWidget = sidebarItems.has('forumStatisticsWidget') ? sidebarItems.get('forumStatisticsWidget') : null;
     console.log(pinned);
 
     return (
       <div className="Asirem-TagsPage">
         {IndexPage.prototype.hero()} <div className="sideNavContainer container">
           <nav className="TagsPage-nav IndexPage-nav sideNav">
-            <ul>{listItems(IndexPage.prototype.sidebarItems().toArray())}</ul>
+            <ul>{listItems(sidebarItems.toArray())}</ul>
           </nav>
 
           <div className="TagsPage-content sideNavOffset">
@@ -143,6 +145,11 @@ export default class TagsPage {
               })}
             </ul>
 
+            {statisticsWidget && (
+              <div className="Asirem-MobileForumStatistics">
+                {m(statisticsWidget.tag, statisticsWidget.attrs, statisticsWidget.children)}
+              </div>
+            )}
             {cloud.length ? <div className="Asirem-TagCloud">{cloud.map((tag) => [tagLabel(tag, { link: true }), ' '])}</div> : ''}
           </div>
         </div>

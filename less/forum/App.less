@@ -8,6 +8,21 @@
   }
 }
 
+.Asirem-MobileForumStatistics {
+  display: none;
+  margin-top: 24px;
+}
+
+@media @tablet, @phone {
+  .Asirem-MobileForumStatistics {
+    display: block;
+  }
+
+  .IndexPage-nav .item-forumStatisticsWidget {
+    display: none !important;
+  }
+}
+
 @media @tablet-up {
   .App {
     display: flex;

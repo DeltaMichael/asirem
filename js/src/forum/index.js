@@ -30,6 +30,21 @@ app.initializers.add('deltamichael-asirem', () => {
     );
   });
 
+  extend(IndexPage.prototype, 'contentItems', function (items) {
+    const sidebarItems = this.sidebarItems();
+    const statisticsWidget = sidebarItems.has('forumStatisticsWidget') ? sidebarItems.get('forumStatisticsWidget') : null;
+
+    if (statisticsWidget) {
+      items.add(
+        'asiremMobileForumStatistics',
+        <div className="Asirem-MobileForumStatistics">
+          {m(statisticsWidget.tag, statisticsWidget.attrs, statisticsWidget.children)}
+        </div>,
+        80
+      );
+    }
+  });
+
   extend(DiscussionListItem.prototype, 'view', function (vnode) {
     const discussionListItemContent = vnode.children.find(
       (e) => e && e.tag === 'div' && e.attrs && e.attrs.className.includes('DiscussionListItem-content')
