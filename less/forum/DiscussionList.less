@@ -199,7 +199,7 @@
     &-content {
       grid-template-columns: 40px minmax(0, 1fr);
       grid-template-areas: "author main";
-      column-gap: 8px;
+      column-gap: 12px;
       padding: 12px;
     }
 
@@ -215,9 +215,33 @@
       padding-right: 42px;
     }
 
+    &-stats {
+      align-items: flex-end;
+    }
+
     &-info > .item-excerpt {
       flex-basis: calc(100% + 42px);
       width: calc(100% + 42px);
+    }
+  }
+
+  .App .DiscussionListItem-content.unread .DiscussionListItem-count {
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: @primary-color;
+    color: #fff;
+    font-weight: 700;
+    line-height: 18px;
+    box-shadow: 0 0 0 2px @asirem-control-bg;
+
+    .DiscussionListItem-stats-item-icon {
+      display: none;
     }
   }
 
