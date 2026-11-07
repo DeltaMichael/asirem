@@ -30,7 +30,7 @@ return [
             return [
                 Schema\Str::make('asiremArtworkUrl')
                     ->get(function (Tag $tag) {
-                        $path = $tag->background_path;
+                        $path = $tag->asirem_artwork_path;
 
                         if (!$path) {
                             return null;
@@ -77,7 +77,7 @@ return [
 
     (new Extend\Event())
         ->listen(\Flarum\Tags\Event\Deleting::class, function ($event) {
-            $path = $event->tag->background_path;
+            $path = $event->tag->asirem_artwork_path;
 
             if ($path && preg_match('/\Aasirem-tag-'.preg_quote((string) $event->tag->id, '/').'-[a-z0-9]{16}\.png\z/', $path)) {
                 $event->tag->afterDelete(function () use ($path) {

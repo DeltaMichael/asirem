@@ -35,7 +35,7 @@ class TagArtworkController implements RequestHandlerInterface
         RequestUtil::getActor($request)->assertAdmin();
 
         $tag = Tag::findOrFail(Arr::get($request->getQueryParams(), 'id'));
-        $previousPath = $tag->background_path;
+        $previousPath = $tag->asirem_artwork_path;
         $newPath = null;
 
         if ($request->getMethod() === 'POST') {
@@ -61,7 +61,7 @@ class TagArtworkController implements RequestHandlerInterface
             }
         }
 
-        $tag->background_path = $newPath;
+        $tag->asirem_artwork_path = $newPath;
 
         try {
             $tag->save();
@@ -76,7 +76,7 @@ class TagArtworkController implements RequestHandlerInterface
             $this->filesystem->delete($previousPath);
         }
 
-        $artworkUrl = $tag->background_path;
+        $artworkUrl = $tag->asirem_artwork_path;
 
         if ($artworkUrl && preg_match('/\Aasirem-tag-[0-9]+-[a-z0-9]{16}\.png\z/', $artworkUrl)) {
             $artworkUrl = $this->filesystem->url($artworkUrl);
