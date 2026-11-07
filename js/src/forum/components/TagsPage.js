@@ -19,12 +19,26 @@ export default class TagsPage {
     const tags = this.tags.map((tag) => app.store.getById('tags', tag.id()) || tag);
     const pinned = tags.filter((tag) => tag.position() !== null).sort((a, b) => a.position() - b.position());
     const cloud = tags.filter((tag) => tag.position() === null);
-    const statisticsWidget = app.widgets.get('end')?.find((widget) => widget.key === 'forumStatistics');
+    const onlineUsersWidget = app.widgets.get('end')?.find((widget) => widget.key === 'onlineUsers');
+    const forumStatisticsWidget = app.widgets.get('end')?.find((widget) => widget.key === 'forumStatistics');
+    const onlineUsers = () => onlineUsersWidget?.component.component({ state: onlineUsersWidget.state });
+    const forumStatistics = () => forumStatisticsWidget?.component.component({ state: forumStatisticsWidget.state });
 
     return (
-      <PageStructure className="Asirem-TagsPage" hero={() => <WelcomeHero />} sidebar={() => <IndexSidebar />}>
+      <PageStructure
+        className="Asirem-TagsPage"
+        hero={() => <WelcomeHero />}
+        sidebar={() => (
+          <div className="Asirem-TagsPage-sidebar">
+            <IndexSidebar />
+            {onlineUsersWidget && <div className="Asirem-TagsPage-onlineUsers Asirem-TagsPage-onlineUsers--desktop">{onlineUsers()}</div>}
+            {forumStatisticsWidget && <div className="Asirem-TagsPage-forumStatistics">{forumStatistics()}</div>}
+          </div>
+        )}
+      >
         <div className="TagsPage-content">
           {this.featuredDiscussions.length > 0 && <FeaturedDiscussions discussions={this.featuredDiscussions} />}
+          {onlineUsersWidget && <div className="Asirem-TagsPage-onlineUsers Asirem-TagsPage-onlineUsers--mobile">{onlineUsers()}</div>}
           <ul className="Asirem-TagTiles">
             {pinned.map((tag) => {
               const lastPostedDiscussion = tag.lastPostedDiscussion();
@@ -107,9 +121,6 @@ export default class TagsPage {
             })}
           </ul>
 
-          {statisticsWidget && (
-            <div className="Asirem-MobileForumStatistics">{statisticsWidget.component.component({ state: statisticsWidget.state })}</div>
-          )}
           {cloud.length ? <div className="Asirem-TagCloud">{cloud.map((tag) => [tagLabel(tag, { link: true }), ' '])}</div> : ''}
         </div>
       </PageStructure>
