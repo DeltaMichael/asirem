@@ -20,7 +20,12 @@ export default class TagsPage {
         .then((tags) => {
           this.tags = tags;
         }),
-      app.store.find('discussions', { sort: '-lastPostedAt', page: { limit: 20 }, include: 'tags,firstPost' })
+      app.store.find('discussions', {
+        filter: { stickiest: true },
+        sort: '-lastPostedAt',
+        page: { limit: 20 },
+        include: 'tags,firstPost',
+      })
         .then((discussions) => {
           this.featuredDiscussions = getSuperStickyDiscussions(discussions);
         })

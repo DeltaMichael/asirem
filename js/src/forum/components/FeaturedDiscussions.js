@@ -28,7 +28,7 @@ function getFirstPostImages(discussion) {
     .filter(Boolean);
 }
 
-export function getSuperStickyDiscussions(discussions, limit = 10) {
+export function getSuperStickyDiscussions(discussions, limit = 20) {
   return discussions
     .filter((discussion) => typeof discussion.isStickiest === 'function' && discussion.isStickiest())
     .slice(0, limit);
