@@ -52,6 +52,19 @@ return [
 
     (new Extend\ApiSerializer(TagSerializer::class))
         ->hasOne('lastPostedDiscussion', DiscussionSerializer::class)
+        ->attribute('asiremArtworkUrl', function (TagSerializer $serializer, Tag $tag) {
+            $path = $tag->background_path;
+
+            if (!$path) {
+                return null;
+            }
+
+            if (preg_match('/\Aasirem-tag-[0-9]+-[a-z0-9]{16}\.png\z/', $path)) {
+                return resolve(\Illuminate\Contracts\Filesystem\Factory::class)->disk('flarum-assets')->url($path);
+            }
+
+            return $path;
+        })
         ->attribute('unreadCount', function (TagSerializer $serializer, Tag $tag) {
         $actor = $serializer->getActor();
         if (!$actor || !$actor->exists) {
@@ -79,6 +92,21 @@ return [
 
     (new Extend\ApiController(ListTagsController::class))
         ->addInclude('lastPostedDiscussion.lastPostedUser'),
+
+    (new Extend\Routes('api'))
+        ->post('/asirem/tags/{id:[0-9]+}/artwork', 'deltamichael-asirem.tag-artwork.upload', Controller\TagArtworkController::class)
+        ->delete('/asirem/tags/{id:[0-9]+}/artwork', 'deltamichael-asirem.tag-artwork.delete', Controller\TagArtworkController::class),
+
+    (new Extend\Event())
+        ->listen(\Flarum\Tags\Event\Deleting::class, function ($event) {
+            $path = $event->tag->background_path;
+
+            if ($path && preg_match('/\Aasirem-tag-'.preg_quote((string) $event->tag->id, '/').'-[a-z0-9]{16}\.png\z/', $path)) {
+                $event->tag->afterDelete(function () use ($path) {
+                    resolve(\Illuminate\Contracts\Filesystem\Factory::class)->disk('flarum-assets')->delete($path);
+                });
+            }
+        }),
 
     (new Extend\ServiceProvider)
     ->register(Provider\ForumFrontendProvider::class),

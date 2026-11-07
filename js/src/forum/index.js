@@ -3,6 +3,7 @@ import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import LinkButton from 'flarum/common/components/LinkButton';
 import TagsPage from 'flarum/tags/components/TagsPage';
+import TagHero from 'flarum/tags/components/TagHero';
 import AsiremTagsPage from './components/TagsPage';
 import SignupPage from './components/SignupPage';
 import StartPage from './components/StartPage';
@@ -11,6 +12,14 @@ import { truncate } from 'flarum/utils/string';
 import Footer from 'flarum/extensions/afrux-theme-base/forum/components/Footer';
 
 app.initializers.add('deltamichael-asirem', () => {
+  extend(TagHero.prototype, 'viewItems', function (items) {
+    const imageUrl = this.attrs.model.attribute('asiremArtworkUrl');
+
+    if (imageUrl) {
+      items.add('asiremArtwork', <img className="Asirem-TagHero-artwork" src={imageUrl} alt="" />, 70);
+    }
+  });
+
   extend(IndexPage.prototype, 'navItems', function (items) {
     items.add(
       'startHere',

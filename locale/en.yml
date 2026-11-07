@@ -1,4 +1,13 @@
 deltamichael-asirem:
+  admin:
+    tag_artwork:
+      label: Tag banner artwork
+      help: 'Choose a JPEG, PNG, GIF or BMP image up to 2 MB. It will be cropped to a square.'
+      save_first: Save this tag first, then edit it to add artwork.
+      upload: Choose tag banner artwork
+      remove: Remove artwork
+      loading: Saving artwork...
+      error: Could not save artwork. Check the image and try again.
   forum:
     start:
       nav: Start here
