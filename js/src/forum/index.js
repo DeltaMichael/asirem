@@ -14,6 +14,7 @@ import AsiremTagsPage from './components/TagsPage';
 import { getSuperStickyDiscussions } from './components/FeaturedDiscussions';
 import SignupPage from './components/SignupPage';
 import StartPage from './components/StartPage';
+import ReactionUsersTooltip from './components/ReactionUsersTooltip';
 import { truncate } from 'flarum/common/utils/string';
 
 extend(DiscussionListState.prototype, 'requestParams', function (params) {
@@ -39,6 +40,36 @@ extend(DiscussionControls, 'controls', function (items, discussion, context) {
 
 app.initializers.add('deltamichael-asirem', () => {
   const PostReactionCounts = flarum.reg.get('fof-reactions', 'forum/components/PostReactionCounts');
+  const ReactionComponent = flarum.reg.get('fof-reactions', 'common/components/ReactionComponent');
+
+  if (PostReactionCounts && ReactionComponent) {
+    const reactionTooltipMedia = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine)');
+    reactionTooltipMedia.addEventListener('change', () => m.redraw());
+
+    extend(ReactionComponent.prototype, 'view', function (vnode) {
+      if (this.attrs.asiremHideTitle) {
+        delete vnode.attrs.title;
+        delete vnode.attrs.asiremHideTitle;
+      }
+    });
+
+    extend(PostReactionCounts.prototype, 'view', function (vnode) {
+      if (!vnode || !reactionTooltipMedia.matches) return;
+
+      const buttons = vnode.children[0].children;
+      vnode.children[0].children = buttons.map((button) => {
+        const icon = button.children[0].children[0];
+        icon.attrs.asiremHideTitle = true;
+
+        return <ReactionUsersTooltip key={icon.attrs.reaction.id()} post={this.attrs.post} reaction={icon.attrs.reaction} button={button} />;
+      });
+    });
+
+    extend(CommentPost.prototype, 'oninit', function () {
+      this.subtree.check(() => this.attrs.post._asiremReactionTooltipRevision);
+      this.subtree.check(() => reactionTooltipMedia.matches);
+    });
+  }
 
   extend(CommentPost.prototype, 'footerItems', function (items) {
     items.remove('reactionCounts');
@@ -46,9 +77,9 @@ app.initializers.add('deltamichael-asirem', () => {
 
   extend(CommentPost.prototype, 'actionItems', function (items) {
     const post = this.attrs.post;
-    const counts = post.reactionCounts();
+    const counts = post.reactionCounts?.();
 
-    if (post.isHidden() || !counts || !Object.values(counts).some((count) => count > 0)) {
+    if (!PostReactionCounts || post.isHidden() || !counts || !Object.values(counts).some((count) => count > 0)) {
       return;
     }
 

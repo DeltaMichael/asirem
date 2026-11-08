@@ -75,6 +75,12 @@ return [
         ->post('/asirem/tags/{id:[0-9]+}/artwork', 'deltamichael-asirem.tag-artwork.upload', Controller\TagArtworkController::class)
         ->delete('/asirem/tags/{id:[0-9]+}/artwork', 'deltamichael-asirem.tag-artwork.delete', Controller\TagArtworkController::class),
 
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('fof-reactions', fn () => [
+            (new Extend\SearchDriver(\Flarum\Search\Database\DatabaseSearchDriver::class))
+                ->addFilter(\FoF\Reactions\Search\PostReactionSearcher::class, Search\ReactionFilter::class),
+        ]),
+
     (new Extend\Event())
         ->listen(\Flarum\Tags\Event\Deleting::class, function ($event) {
             $path = $event->tag->asirem_artwork_path;

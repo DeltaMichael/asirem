@@ -9,6 +9,11 @@ deltamichael-asirem:
       loading: Saving artwork...
       error: Could not save artwork. Check the image and try again.
   forum:
+    reactions:
+      loading: Loading reactions...
+      unavailable: You do not have permission to see who reacted.
+      no_named: No named reactions available.
+      error: Could not load reactions.
     start:
       nav: Start here
       eyebrow: New to BWS?

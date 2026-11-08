@@ -24,6 +24,11 @@ The following are nice to install with the theme as well:
 composer require sycho/flarum-advanced-extension-categories
 ```
 
+When FriendsOfFlarum Reactions is enabled, hovering or focusing a reaction on
+hover-capable desktop layouts shows up to 10 named users, subject to the
+discussion's reaction visibility permission. Anonymous reactions do not have
+names to display; phone and touch-only layouts retain the standard controls.
+
 ### Updating
 
 ```sh

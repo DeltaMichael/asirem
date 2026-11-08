@@ -43,3 +43,14 @@
   box-shadow: 0 0 0 1px var(--primary-color);
 }
 
+.Asirem-ReactionUsersTooltip {
+  display: inline-block;
+
+  &:not(:last-of-type) {
+    margin-right: 5px;
+  }
+}
+
+.Asirem-ReactionUsersTooltip + .tooltip .tooltip-inner {
+  white-space: pre-line;
+}
