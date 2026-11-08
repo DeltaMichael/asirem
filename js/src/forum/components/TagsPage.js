@@ -43,6 +43,7 @@ export default class TagsPage {
             {pinned.map((tag) => {
               const lastPostedDiscussion = tag.lastPostedDiscussion();
               const children = sortTags(tag.children() || []);
+              const artworkUrl = tag.attribute('asiremArtworkUrl');
               const tagIconNode = tagIcon(tag, {}, { useColor: false });
 
               const unread = tag.attribute('unreadCount');
@@ -62,7 +63,9 @@ export default class TagsPage {
                   )}
 
                   <Link className="Asirem-TagTile-info" href={app.route.tag(tag)}>
-                    <div className="Asirem-TagTile-icon">{tagIconNode}</div>
+                    <div className="Asirem-TagTile-icon">
+                      {artworkUrl ? <img className="Asirem-TagTile-artwork" src={artworkUrl} alt="" /> : tagIconNode}
+                    </div>
                     <div className="Asirem-TagTile-content">
                       <h3 className="Asirem-TagTile-name">{tag.name()}</h3>
                       <p className="Asirem-TagTile-description">{tag.description()}</p>

@@ -8,6 +8,7 @@ import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import LinkButton from 'flarum/common/components/LinkButton';
 import TagsPage from 'ext:flarum/tags/forum/components/TagsPage';
 import TagHero from 'ext:flarum/tags/forum/components/TagHero';
+import TagLinkButton from 'ext:flarum/tags/forum/components/TagLinkButton';
 import sortTags from 'ext:flarum/tags/common/utils/sortTags';
 import AsiremTagsPage from './components/TagsPage';
 import { getSuperStickyDiscussions } from './components/FeaturedDiscussions';
@@ -75,6 +76,15 @@ app.initializers.add('deltamichael-asirem', () => {
 
     if (imageUrl) {
       items.add('asiremArtwork', <img className="Asirem-TagHero-artwork" src={imageUrl} alt="" />, 70);
+    }
+  });
+
+  extend(TagLinkButton.prototype, 'linkItems', function (items, tag) {
+    const imageUrl = tag?.attribute('asiremArtworkUrl');
+
+    if (imageUrl) {
+      items.remove('icon');
+      items.add('icon', <img className="Button-icon Asirem-TagArtwork" src={imageUrl} alt="" />, 100);
     }
   });
 

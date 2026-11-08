@@ -78,6 +78,23 @@
         > a .Button-icon.TagIcon {
           width: 24px !important;
           height: 24px !important;
+          box-sizing: border-box;
+          border: 2px solid @asirem-control-bg;
+          border-radius: @asirem-border-radius-a;
+          box-shadow: 0 0 0 1px var(--color, @asirem-control-bg), 0 0 0 3px @asirem-control-bg;
+        }
+
+        > a .Button-icon.Asirem-TagArtwork,
+        &:hover > a .Button-icon.Asirem-TagArtwork,
+        &.active > a .Button-icon.Asirem-TagArtwork {
+          width: 24px !important;
+          height: 24px !important;
+          box-sizing: border-box;
+          border: 2px solid @asirem-control-bg;
+          border-radius: @asirem-border-radius-a;
+          box-shadow: 0 0 0 1px var(--color, @asirem-control-bg), 0 0 0 3px @asirem-control-bg;
+          background: transparent;
+          object-fit: cover;
         }
 
         &:hover > a .Button-icon,
