@@ -88,16 +88,6 @@
 }
 
 .App {
-  .IndexPage .DiscussionListItem,
-  .UserPage .DiscussionListItem {
-    &-info {
-      > .item-tags {
-        top: 14px;
-        right: 108px;
-      }
-    }
-  }
-
   .DiscussionListItem {
     &-info {
       display: flex;
@@ -111,6 +101,7 @@
       font-size: 15px;
       font-weight: 600;
       line-height: 1.4;
+      flex: 0 0 100%;
     }
 
     &-main {
@@ -122,8 +113,20 @@
     }
 
     &-info > .item-excerpt {
+      order: 3;
       flex: 0 0 calc(100% + 70px);
       width: calc(100% + 70px);
+    }
+
+    &-info > .item-tags {
+      position: static;
+      order: 1;
+      flex: 0 0 100%;
+      margin: 4px 0 0;
+    }
+
+    &-info > .item-terminalPost {
+      order: 2;
     }
 
     &-badges {
@@ -169,14 +172,6 @@
       padding: 0;
       display: flex;
       align-items: flex-start;
-    }
-
-    &-info > .item-tags {
-      position: absolute;
-      top: 14px;
-      right: 108px;
-      z-index: 1;
-      margin: 0;
     }
 
     &-count {
@@ -247,12 +242,6 @@
     .DiscussionListItem-stats-item-icon {
       display: none;
     }
-  }
-
-  .App .IndexPage .DiscussionListItem-info > .item-tags {
-    position: static !important;
-    top: auto;
-    right: auto;
   }
 }
 
