@@ -42,6 +42,12 @@
 }
 
 @media @tablet-up {
+  .DiscussionPage .Page-container {
+    max-width: @screen-desktop-hd;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .App {
     display: flex;
     flex-direction: column;
@@ -54,5 +60,23 @@
 
   .container {
     padding: 0;
+  }
+}
+
+@media @tablet {
+  .DiscussionPage .Page-container {
+    max-width: @screen-tablet;
+  }
+}
+
+@media @desktop {
+  .DiscussionPage .Page-container {
+    max-width: @screen-desktop;
+  }
+}
+
+@media @desktop-hd {
+  .DiscussionPage .Page-content {
+    margin-left: 0;
   }
 }

@@ -1,4 +1,5 @@
 .Post {
+  padding-left: var(--post-padding);
   margin: 0 0 16px;
   background: @asirem-control-bg;
   border-radius: @border-radius;
@@ -27,3 +28,18 @@
 .EventPost .Post-actions, .Post--hidden:not(.revealContent) .Post-actions {
   margin-top: -30px;
 }
+
+.Post-actions .item-reactionCounts .Button-emoji-parent.active {
+  background: color-mix(in srgb, var(--primary-color) 22%, var(--control-bg));
+  box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.Post-actions:has(.item-reactionCounts .Button-emoji-parent.active) .item-react {
+  display: none;
+}
+
+.Post-actions .item-reactionCounts .Button-emoji-parent.active {
+  background: color-mix(in srgb, var(--primary-color) 22%, var(--control-bg));
+  box-shadow: 0 0 0 1px var(--primary-color);
+}
+

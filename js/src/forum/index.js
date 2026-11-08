@@ -1,5 +1,6 @@
 import { extend, override } from 'flarum/common/extend';
 import Button from 'flarum/common/components/Button';
+import CommentPost from 'flarum/forum/components/CommentPost';
 import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
 import DiscussionControls from 'flarum/forum/utils/DiscussionControls';
 import DiscussionListState from 'flarum/forum/states/DiscussionListState';
@@ -36,6 +37,23 @@ extend(DiscussionControls, 'controls', function (items, discussion, context) {
 });
 
 app.initializers.add('deltamichael-asirem', () => {
+  const PostReactionCounts = flarum.reg.get('fof-reactions', 'forum/components/PostReactionCounts');
+
+  extend(CommentPost.prototype, 'footerItems', function (items) {
+    items.remove('reactionCounts');
+  });
+
+  extend(CommentPost.prototype, 'actionItems', function (items) {
+    const post = this.attrs.post;
+    const counts = post.reactionCounts();
+
+    if (post.isHidden() || !counts || !Object.values(counts).some((count) => count > 0)) {
+      return;
+    }
+
+    items.add('reactionCounts', PostReactionCounts.component({ post }), 6);
+  });
+
   extend(DiscussionListItem.prototype, 'oninit', function () {
     const discussion = this.attrs.discussion;
     const firstPostLink = discussion.rawRelationship('firstPost');
@@ -125,4 +143,4 @@ app.initializers.add('deltamichael-asirem', () => {
 
   app.routes['signup'] = { path: '/signup', component: SignupPage };
   app.routes['start'] = { path: '/start', component: StartPage };
-});
+}, -100);
