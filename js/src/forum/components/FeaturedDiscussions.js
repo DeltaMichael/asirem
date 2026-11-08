@@ -54,7 +54,7 @@ export default class FeaturedDiscussions extends Component {
         if (!this.isPaused) {
           this.goToSlide(this.activeIndex + 1, true);
         }
-      }, 10000);
+      }, 5000);
     }
   }
 
@@ -215,7 +215,7 @@ export default class FeaturedDiscussions extends Component {
   viewCard(discussion, index) {
     const tag = discussion.tags?.()?.[0];
     const images = getFirstPostImages(discussion);
-    const imageUrl = images[0] || app.forum.attribute('logoUrl');
+    const imageUrl = images[0] || 'https://forums.bwzone.eu/assets/files/2026-11-07/1794020977-834598-bwz-white-jpg.png';
     const lastPostedAt = discussion.lastPostedAt();
     const replyCount = discussion.commentCount();
 

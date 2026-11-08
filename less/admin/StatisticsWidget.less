@@ -32,7 +32,7 @@
         border: 0;
         padding-top: 15px;
         background-color: @primary-color;
-        color: @body-bg;
+        color: @asirem-body-bg;
 
         .StatisticsWidget {
           &-heading {
@@ -40,7 +40,7 @@
           }
 
           &-change {
-            background-color: mix(@control-bg, @primary-color, 60);
+            background-color: color-mix(in srgb, var(--control-bg) 60%, @primary-color);
           }
         }
       }
@@ -52,7 +52,7 @@
         bottom: -38px;
         right: -12px;
         font-size: 5rem;
-        color: @control-bg;
+        color: @asirem-control-bg;
         transform: rotate(-21deg);
         z-index: -1;
         opacity: 0.6;
@@ -80,7 +80,7 @@
       margin: 8px 0 0 0;
 
       .chart-container .axis line, .chart-container .chart-label line {
-        stroke: @control-bg !important;
+        stroke: @asirem-control-bg !important;
       }
     }
 
@@ -93,7 +93,7 @@
       text-transform: none;
       font-size: 11px;
       vertical-align: middle;
-      background-color: @control-bg;
+      background-color: @asirem-control-bg;
 
       &--up {
         color: #00a502;

@@ -8,12 +8,12 @@
   }
 
   &Item {
-    background: @control-bg;
+    background: @asirem-control-bg;
     margin: 0 0 8px;
     padding: 0;
     border-radius: @border-radius;
     border: 1px solid @asirem-surface-border;
-    box-shadow: 0 1px 2px fade(@shadow-color, 6%);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--shadow-color) 6%, transparent);
     transition: box-shadow 160ms ease, border-color 160ms ease;
 
     &:hover {
@@ -92,8 +92,8 @@
   .UserPage .DiscussionListItem {
     &-info {
       > .item-tags {
-        top: 0;
-        right: 0;
+        top: 14px;
+        right: 108px;
       }
     }
   }
@@ -103,19 +103,27 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
+      position: static;
     }
 
     &-title {
-      color: @text-color !important;
+      color: @asirem-text-color !important;
       font-size: 15px;
       font-weight: 600;
       line-height: 1.4;
     }
 
     &-main {
-      padding: 0;
+      grid-area: main;
+      min-width: 0;
+      padding: 0 100px 0 0;
       margin: 0;
-      position: relative;
+      position: static;
+    }
+
+    &-info > .item-excerpt {
+      flex: 0 0 calc(100% + 170px);
+      width: calc(100% + 170px);
     }
 
     &-badges {
@@ -129,32 +137,46 @@
     }
 
     &-author {
+      grid-area: author;
       float: none;
       margin: 0;
       display: block;
-
-      &-container {
-        margin-right: 15px;
-        position: relative;
-
-        > .tooltip {
-          width: max-content;
-        }
-      }
+      width: 50px;
+      position: relative;
 
       .Avatar {
-        .asirem-icon-block(50px, @body-bg);
+        .asirem-icon-block(50px, @asirem-body-bg);
+
+        &[role="img"] {
+          background-color: var(--avatar-bg);
+        }
       }
     }
 
     &-content {
-      display: flex;
-      padding: 14px 16px;
+      position: relative;
+      display: grid;
+      grid-template-columns: 50px minmax(0, 1fr) max-content;
+      grid-template-areas: "author main stats";
+      align-items: start;
+      column-gap: 12px;
+      padding: 14px 60px 14px 16px;
     }
 
     &-stats {
-      margin-left: 10px;
-      margin-right: 15px;
+      grid-area: stats;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    &-info > .item-tags {
+      position: absolute;
+      top: 14px;
+      right: 108px;
+      z-index: 1;
+      margin: 0;
     }
 
     &-count {
@@ -173,15 +195,73 @@
 }
 
 @media @phone {
-  .DiscussionListItem {
+  .App .DiscussionListItem {
     .unread &-count {
       padding: 0 4px;
     }
+
+    &-content {
+      grid-template-columns: 40px minmax(0, 1fr);
+      grid-template-areas: "author main";
+      column-gap: 12px;
+      padding: 12px;
+    }
+
+    &-author {
+      width: 40px;
+
+      .Avatar {
+        --size: 40px;
+      }
+    }
+
+    &-main {
+      padding-right: 42px;
+    }
+
+    &-stats {
+      align-items: flex-end;
+    }
+
+    &-info > .item-excerpt {
+      flex-basis: calc(100% + 42px);
+      width: calc(100% + 42px);
+    }
+  }
+
+  .App .DiscussionListItem-content.unread .DiscussionListItem-count {
+    width: 18px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: @primary-color;
+    color: #fff;
+    font-weight: 700;
+    line-height: 18px;
+    box-shadow: 0 0 0 2px @asirem-control-bg;
+
+    .DiscussionListItem-stats-item-icon {
+      display: none;
+    }
+  }
+
+  .App .IndexPage .DiscussionListItem-info > .item-tags {
+    position: static !important;
+    top: auto;
+    right: auto;
   }
 }
 
 
 @media @tablet-up {
+  .App .DiscussionListItem-controls {
+    opacity: 1;
+  }
+
   .DiscussionListItem {
     .item-excerpt {
       margin-right: 0;

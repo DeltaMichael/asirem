@@ -8,18 +8,36 @@
   }
 }
 
-.Asirem-MobileForumStatistics {
+.Page.Asirem-TagsPage .FofWidgets-sideNavAlt {
+  display: none !important;
+}
+
+.Asirem-TagsPage-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Asirem-TagsPage-onlineUsers--mobile {
   display: none;
-  margin-top: 24px;
+}
+
+.Asirem-TagsPage-forumStatistics {
+  display: block;
 }
 
 @media @tablet, @phone {
-  .Asirem-MobileForumStatistics {
-    display: block;
+  .Asirem-TagsPage-onlineUsers--desktop {
+    display: none;
   }
 
-  .IndexPage-nav .item-forumStatisticsWidget {
-    display: none !important;
+  .Asirem-TagsPage-forumStatistics {
+    display: none;
+  }
+
+  .Asirem-TagsPage-onlineUsers--mobile {
+    display: block;
+    margin-bottom: 20px;
   }
 }
 
