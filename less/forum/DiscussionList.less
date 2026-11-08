@@ -101,7 +101,11 @@
       font-size: 15px;
       font-weight: 600;
       line-height: 1.4;
-      flex: 0 0 100%;
+      padding-right: 100px;
+    }
+
+    .DiscussionListItem-title {
+      margin-right: 0;
     }
 
     &-main {
@@ -113,9 +117,9 @@
     }
 
     &-info > .item-excerpt {
-      order: 3;
-      flex: 0 0 calc(100% + 70px);
-      width: calc(100% + 70px);
+      order: 2;
+      flex: 0 0 100%;
+      width: 100%;
     }
 
     &-info > .item-tags {
@@ -123,10 +127,16 @@
       order: 1;
       flex: 0 0 100%;
       margin: 4px 0 0;
+      max-width: none;
+      white-space: normal;
+      -webkit-mask-image: none;
     }
 
     &-info > .item-terminalPost {
-      order: 2;
+      order: 3;
+      flex: 0 0 100%;
+      text-align: right;
+      margin-top: 4px;
     }
 
     &-badges {
@@ -159,15 +169,18 @@
     &-content {
       position: relative;
       display: grid;
-      grid-template-columns: 50px minmax(0, 1fr) max-content;
-      grid-template-areas: "author main stats";
+      grid-template-columns: 50px minmax(0, 1fr);
+      grid-template-areas: "author main";
       align-items: start;
       column-gap: 12px;
-      padding: 14px 60px 14px 16px;
+      padding: 14px 16px;
     }
 
     &-stats {
-      grid-area: stats;
+      position: absolute;
+      top: 14px;
+      right: 60px;
+      width: auto;
       margin: 0;
       padding: 0;
       display: flex;
@@ -178,7 +191,8 @@
       margin: 0;
       padding: 0;
       float: none;
-      display: block;
+      display: flex;
+      white-space: nowrap;
 
       &::before {
         margin: 0 5px 0 0;
@@ -211,16 +225,21 @@
     }
 
     &-main {
-      padding-right: 42px;
+      padding-right: 0;
     }
 
     &-stats {
       align-items: flex-end;
+      top: 12px;
+      right: 12px;
     }
 
-    &-info > .item-excerpt {
-      flex-basis: calc(100% + 42px);
-      width: calc(100% + 42px);
+    &-title {
+      padding-right: 42px;
+    }
+
+    &-info {
+      max-width: none;
     }
   }
 
