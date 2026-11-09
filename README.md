@@ -44,10 +44,32 @@ Phones show only the player and chat. Chat requires the `ramon/chat` extension,
 an enabled account, and permission to access the selected channel; discussion
 visibility follows the forum's normal permissions.
 
+### News feed and tag navigation
+
+Set **News feed tag ID** in the Asirem settings to the numeric ID of a tag.
+You can find it in the tag's API response at `/api/tags` (the `id` field).
+The feed appears at `/news` and in forum navigation, newest discussions first.
+Leave the setting blank to remove the navigation link.
+News cards use the carousel's default image when the first post has no image or
+its first image is an emoji.
+Super-sticky, tag-sticky and sticky discussions appear first when the respective
+extensions are enabled; other discussions are ordered by creation date. Signed-in
+users see a header badge counting unread discussions in the selected tag. The
+count refreshes periodically and when returning to the forum. **Mark news as
+read** marks all currently visible discussions in that tag as read, including
+those not yet loaded on the page; it does not mark other discussions as read.
+
+Each tag has an independent **Hide from tag navigation** checkbox in its edit
+dialog. It hides the tag from the tag page and sidebar, including children of a
+hidden parent. This is presentation only: it does not restrict access, remove
+discussion labels or tag-picker choices, hide discussions from All Discussions,
+or disable direct tag URLs. Normal tag and discussion permissions still apply.
+
 ### Updating
 
 ```sh
 composer update afrux/asirem --with-dependencies
+php flarum migrate
 php flarum cache:clear
 ```
 

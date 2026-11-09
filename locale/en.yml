@@ -1,5 +1,10 @@
 deltamichael-asirem:
   admin:
+    news:
+      tag: News feed tag ID
+      tag_help: Enter the numeric ID of the tag used for the news feed, or leave blank to disable its navigation link. Find the ID in the tag API response. Discussions are ordered by creation date.
+      hide_tag: Hide from tag navigation
+      hide_tag_help: Hides this tag from tag tiles, the tag cloud and sidebar, not from discussions, the tag picker or direct links. This does not restrict access. Children of a hidden parent are also hidden from navigation.
     event:
       event_title: Event hub title
       event_title_help: Optional title displayed on the event hub.
@@ -18,6 +23,19 @@ deltamichael-asirem:
       loading: Saving artwork...
       error: Could not save artwork. Check the image and try again.
   forum:
+    news:
+      nav: News
+      title: News
+      unconfigured: The news feed has not been configured.
+      empty: There are no news discussions to show.
+      error: The news feed could not be loaded or is not accessible.
+      retry: Try again
+      load_more: Load more
+      mark_read: Mark news as read
+      mark_read_confirm: Mark all visible news discussions as read?
+      unread_count: '{count} unread news discussions'
+      unread: Unread
+      unread_error: News unread count unavailable
     event:
       nav: Event hub
       title: Event hub

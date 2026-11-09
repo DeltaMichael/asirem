@@ -1,0 +1,119 @@
+.Asirem-NewsNavButton {
+  position: relative;
+
+  &.hasIcon {
+    @media @tablet-up {
+      .Button--icon();
+    }
+  }
+
+  .Button-label {
+    margin-left: 7px;
+  }
+}
+
+.Asirem-NewsPage {
+  &-content {
+    padding-bottom: 32px;
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  &-card {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    min-height: 200px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    border: 1px solid @asirem-surface-border;
+    border-radius: @border-radius;
+    background: @asirem-control-bg;
+    color: @asirem-text-color;
+
+    &:hover {
+      box-shadow: @asirem-surface-shadow;
+      text-decoration: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid @primary-color;
+      outline-offset: 3px;
+    }
+  }
+
+  &-media {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    overflow: hidden;
+    background: @asirem-primary-bg;
+    color: @primary-color;
+    font-size: 32px;
+    font-weight: 800;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &-copy {
+    min-width: 0;
+    padding: 20px;
+
+    h2 {
+      margin: 0 0 10px;
+      color: @asirem-heading-color;
+      font-size: 20px;
+    }
+
+    p {
+      display: -webkit-box;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+    }
+  }
+
+  &-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    color: @asirem-muted-color;
+    font-size: 13px;
+  }
+
+  &-unread {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: @primary-color;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  @media @phone {
+    &-card {
+      display: block;
+    }
+
+    &-media {
+      height: 180px;
+      min-height: 0;
+    }
+  }
+}

@@ -7,6 +7,7 @@ use Flarum\Api\Resource\ForumResource;
 use Flarum\Api\Schema;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\DiscussionRepository;
+use Flarum\Discussion\Search\DiscussionSearcher;
 use Flarum\Extend;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Tags\Api\Resource\TagResource;
@@ -20,6 +21,7 @@ return [
         ->css(__DIR__.'/less/forum.less')
         ->route('/signup', 'signup')
         ->route('/start', 'start')
+        ->route('/news', 'news')
         ->route('/event', 'event', Content\RequireEventAccess::class),
 
     (new Extend\Frontend('admin'))
@@ -31,7 +33,10 @@ return [
     (new Extend\ApiResource(ForumResource::class))
         ->fields(function () {
             $settings = resolve(SettingsRepositoryInterface::class);
-            $fields = [];
+            $fields = [
+                Schema\Str::make('asiremNewsTag')
+                    ->get(fn () => $settings->get('deltamichael-asirem.news_tag')),
+            ];
 
             foreach ([
                 'asiremEventTitle' => 'event_title',
@@ -50,6 +55,12 @@ return [
     (new Extend\ApiResource(TagResource::class))
         ->fields(function () {
             return [
+                Schema\Boolean::make('asiremHideFromNavigation')
+                    ->get(fn (Tag $tag) => (bool) $tag->asirem_hide_from_navigation)
+                    ->writable(fn (Tag $tag, Context $context) => $context->getActor()->isAdmin())
+                    ->set(function (Tag $tag, bool $value) {
+                        $tag->asirem_hide_from_navigation = $value;
+                    }),
                 Schema\Str::make('asiremArtworkUrl')
                     ->get(function (Tag $tag) {
                         $path = $tag->asirem_artwork_path;
@@ -94,8 +105,12 @@ return [
         }),
 
     (new Extend\Routes('api'))
+        ->post('/asirem/news/read', 'deltamichael-asirem.news.read', Controller\MarkNewsReadController::class)
         ->post('/asirem/tags/{id:[0-9]+}/artwork', 'deltamichael-asirem.tag-artwork.upload', Controller\TagArtworkController::class)
         ->delete('/asirem/tags/{id:[0-9]+}/artwork', 'deltamichael-asirem.tag-artwork.delete', Controller\TagArtworkController::class),
+
+    (new Extend\SearchDriver(\Flarum\Search\Database\DatabaseSearchDriver::class))
+        ->addFilter(DiscussionSearcher::class, Search\NewsOrderFilter::class),
 
     (new Extend\Conditional())
         ->whenExtensionEnabled('fof-reactions', fn () => [

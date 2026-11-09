@@ -1,10 +1,12 @@
 import { extend, override } from 'flarum/common/extend';
 import Button from 'flarum/common/components/Button';
 import CommentPost from 'flarum/forum/components/CommentPost';
+import Discussion from 'flarum/common/models/Discussion';
 import DiscussionListItem from 'flarum/forum/components/DiscussionListItem';
 import DiscussionControls from 'flarum/forum/utils/DiscussionControls';
 import DiscussionListState from 'flarum/forum/states/DiscussionListState';
 import IndexSidebar from 'flarum/forum/components/IndexSidebar';
+import HeaderSecondary from 'flarum/forum/components/HeaderSecondary';
 import LinkButton from 'flarum/common/components/LinkButton';
 import TagsPage from 'ext:flarum/tags/forum/components/TagsPage';
 import TagHero from 'ext:flarum/tags/forum/components/TagHero';
@@ -15,7 +17,12 @@ import { getSuperStickyDiscussions } from './components/FeaturedDiscussions';
 import SignupPage from './components/SignupPage';
 import StartPage from './components/StartPage';
 import EventPage from './components/EventPage';
+import NewsPage from './components/NewsPage';
+import NewsNavButton from './components/NewsNavButton';
 import ReactionUsersTooltip from './components/ReactionUsersTooltip';
+import { isNavigationTagVisible } from './utils/tagNavigation';
+import { newsTagId } from './utils/newsFeed';
+import newsUnread from './states/newsUnread';
 import { truncate } from 'flarum/common/utils/string';
 
 extend(DiscussionListState.prototype, 'requestParams', function (params) {
@@ -123,6 +130,39 @@ app.initializers.add(
     });
 
     extend(IndexSidebar.prototype, 'navItems', function (items) {
+      const tags = app.store.all('tags');
+      tags.filter((tag) => !isNavigationTagVisible(tag)).forEach((tag) => items.remove('tag' + tag.id()));
+      if (!app.current.get('noTagsList')) {
+        const more = tags
+          .filter((tag) => tag.position() === null && isNavigationTagVisible(tag))
+          .sort((a, b) => b.discussionCount() - a.discussionCount());
+        const currentTag = app.currentTag();
+        more.slice(0, 3).forEach((tag) => {
+          if (!items.has('tag' + tag.id())) {
+            items.add(
+              'tag' + tag.id(),
+              <TagLinkButton
+                model={tag}
+                params={app.search.state.stickyParams()}
+                active={currentTag === tag || (currentTag && currentTag.parent() === tag)}
+              >
+                {tag.name()}
+              </TagLinkButton>,
+              -14
+            );
+          }
+        });
+        if (more.length <= 3) items.remove('moreTags');
+      }
+      if (newsTagId(app.forum.attribute('asiremNewsTag'))) {
+        items.add(
+          'news',
+          <LinkButton href={app.route('news')} icon="fas fa-newspaper">
+            {app.translator.trans('deltamichael-asirem.forum.news.nav')}
+          </LinkButton>,
+          108
+        );
+      }
       items.add(
         'startHere',
         <LinkButton href={app.route('start')} icon="fas fa-compass">
@@ -139,6 +179,23 @@ app.initializers.add(
           105
         );
       }
+    });
+
+    extend(HeaderSecondary.prototype, 'items', function (items) {
+      if (app.session.user && newsTagId(app.forum.attribute('asiremNewsTag'))) {
+        items.add('asiremNews', <NewsNavButton />, 14);
+      }
+    });
+
+    override(Discussion.prototype, 'save', function (original, data, ...args) {
+      const request = original(data, ...args);
+      if (data?.lastReadPostNumber) {
+        request.then(
+          () => newsUnread.scheduleRefresh(),
+          () => {}
+        );
+      }
+      return request;
     });
 
     extend(TagsPage.prototype, 'oninit', function () {
@@ -196,6 +253,7 @@ app.initializers.add(
 
     app.routes['signup'] = { path: '/signup', component: SignupPage };
     app.routes['start'] = { path: '/start', component: StartPage };
+    app.routes['news'] = { path: '/news', component: NewsPage };
     app.routes['event'] = { path: '/event', component: EventPage };
   },
   -100

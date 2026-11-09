@@ -1,32 +1,7 @@
 import Component from 'flarum/common/Component';
 import Link from 'flarum/common/components/Link';
 import humanTime from 'flarum/common/helpers/humanTime';
-
-function getFirstPostImages(discussion) {
-  const content = discussion.firstPost()?.contentHtml?.();
-
-  if (!content || typeof DOMParser === 'undefined') {
-    return [];
-  }
-
-  const document = new DOMParser().parseFromString(content, 'text/html');
-
-  return Array.from(document.querySelectorAll('img[src]'))
-    .map((image) => image.getAttribute('src'))
-    .filter(Boolean)
-    .map((src) => {
-      try {
-        const baseUrl = new URL(app.forum.attribute('baseUrl') || window.location.href, window.location.href);
-        baseUrl.pathname = baseUrl.pathname.endsWith('/') ? baseUrl.pathname : `${baseUrl.pathname}/`;
-        const url = new URL(src, baseUrl.href);
-
-        return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : null;
-      } catch (_error) {
-        return null;
-      }
-    })
-    .filter(Boolean);
-}
+import { DEFAULT_PREVIEW_IMAGE, getFirstPostImages } from '../utils/previewImages';
 
 export function getSuperStickyDiscussions(discussions, limit = 20) {
   return discussions
@@ -215,7 +190,7 @@ export default class FeaturedDiscussions extends Component {
   viewCard(discussion, index) {
     const tag = discussion.tags?.()?.[0];
     const images = getFirstPostImages(discussion);
-    const imageUrl = images[0] || 'https://forums.bwzone.eu/assets/files/2026-11-07/1794020977-834598-bwz-white-jpg.png';
+    const imageUrl = images[0] || DEFAULT_PREVIEW_IMAGE;
     const lastPostedAt = discussion.lastPostedAt();
     const replyCount = discussion.commentCount();
 

@@ -9,6 +9,7 @@ import tagIcon from 'ext:flarum/tags/common/helpers/tagIcon';
 import tagLabel from 'ext:flarum/tags/common/helpers/tagLabel';
 import sortTags from 'ext:flarum/tags/common/utils/sortTags';
 import FeaturedDiscussions, { getSuperStickyDiscussions } from './FeaturedDiscussions';
+import { isNavigationTagVisible } from '../utils/tagNavigation';
 
 export default class TagsPage {
   view() {
@@ -16,7 +17,7 @@ export default class TagsPage {
       return <LoadingIndicator />;
     }
 
-    const tags = this.tags.map((tag) => app.store.getById('tags', tag.id()) || tag);
+    const tags = this.tags.map((tag) => app.store.getById('tags', tag.id()) || tag).filter(isNavigationTagVisible);
     const pinned = tags.filter((tag) => tag.position() !== null).sort((a, b) => a.position() - b.position());
     const cloud = tags.filter((tag) => tag.position() === null);
     const onlineUsersWidget = app.widgets.get('end')?.find((widget) => widget.key === 'onlineUsers');
@@ -42,7 +43,7 @@ export default class TagsPage {
           <ul className="Asirem-TagTiles">
             {pinned.map((tag) => {
               const lastPostedDiscussion = tag.lastPostedDiscussion();
-              const children = sortTags(tag.children() || []);
+              const children = sortTags((tag.children() || []).filter(isNavigationTagVisible));
               const artworkUrl = tag.attribute('asiremArtworkUrl');
               const tagIconNode = tagIcon(tag, {}, { useColor: false });
 
