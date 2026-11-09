@@ -1,5 +1,14 @@
 deltamichael-asirem:
   admin:
+    event:
+      event_title: Event hub title
+      event_title_help: Optional title displayed on the event hub.
+      event_stream: Event stream iframe source
+      event_stream_help: Paste the full HTTP or HTTPS iframe src URL, not the iframe HTML. The provider must allow embedding.
+      event_discussion: Event discussion
+      event_discussion_help: Enter a discussion ID or a discussion URL from this forum.
+      event_channel: Event chat channel
+      event_channel_help: Enter a chat channel ID or a channel URL from this forum. Requires the Chat extension.
     tag_artwork:
       label: Tag banner artwork
       help: 'Choose a JPEG, PNG, GIF or BMP image up to 2 MB. It will be cropped to a square.'
@@ -9,6 +18,22 @@ deltamichael-asirem:
       loading: Saving artwork...
       error: Could not save artwork. Check the image and try again.
   forum:
+    event:
+      nav: Event hub
+      title: Event hub
+      stream: Event stream
+      stream_unavailable: No valid event stream has been configured.
+      discussion: Event discussion
+      discussion_loading: Loading the discussion...
+      discussion_unconfigured: No valid discussion has been configured.
+      discussion_error: The discussion could not be loaded or is not accessible.
+      open_discussion: Open discussion
+      chat: Event chat
+      chat_loading: Loading chat...
+      chat_unconfigured: No valid chat channel has been configured.
+      chat_unavailable: Chat is unavailable. Sign in and make sure chat is enabled for your account.
+      chat_error: The chat channel could not be loaded or is not accessible.
+      open_chat: Open chat
     reactions:
       loading: Loading reactions...
       unavailable: You do not have permission to see who reacted.

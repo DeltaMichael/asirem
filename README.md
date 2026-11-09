@@ -29,6 +29,21 @@ hover-capable desktop layouts shows up to 10 named users, subject to the
 discussion's reaction visibility permission. Anonymous reactions do not have
 names to display; phone and touch-only layouts retain the standard controls.
 
+### Event hub
+
+The event hub is available at `/event` and in the forum navigation. Configure
+its title, stream iframe source URL, discussion ID or forum URL, and chat channel
+ID or forum URL in the Asirem extension settings. The stream provider must allow
+embedding on the forum's domain. The stream URL is public and should not contain
+credentials or secrets. The hub accepts HTTP or HTTPS iframe source URLs without
+restricting the provider. The player sends the forum origin to cross-origin
+providers when the browser permits it, as required by some embedded players.
+
+The desktop page shows a discussion preview linking to the full discussion.
+Phones show only the player and chat. Chat requires the `ramon/chat` extension,
+an enabled account, and permission to access the selected channel; discussion
+visibility follows the forum's normal permissions.
+
 ### Updating
 
 ```sh

@@ -7,6 +7,25 @@ import TagArtworkControl from './components/TagArtworkControl';
 app.initializers.add(
   'deltamichael-asirem',
   (app) => {
+    const settings = [
+      ['event_title', 'text'],
+      ['event_stream', 'url'],
+      ['event_discussion', 'text'],
+      ['event_channel', 'text'],
+    ];
+
+    settings.forEach(([setting, type], index) => {
+      app.registry.for('deltamichael-asirem').registerSetting(
+        {
+          setting: `deltamichael-asirem.${setting}`,
+          type,
+          label: app.translator.trans(`deltamichael-asirem.admin.event.${setting}`),
+          help: app.translator.trans(`deltamichael-asirem.admin.event.${setting}_help`),
+        },
+        100 - index
+      );
+    });
+
     extend(EditTagModal.prototype, 'fields', function (items) {
       items.add('asiremArtwork', <TagArtworkControl model={this.tag} />, 15);
     });

@@ -1,0 +1,98 @@
+.Asirem-EventPage {
+  &-content {
+    padding: 20px 0 32px;
+  }
+
+  &-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+    grid-template-areas: "main chat";
+    gap: 16px;
+    align-items: start;
+  }
+
+  &-main {
+    grid-area: main;
+    display: grid;
+    min-width: 0;
+    gap: 16px;
+  }
+
+  &-player, &-discussion, &-chat {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid @asirem-surface-border;
+    border-radius: @border-radius;
+    background: @asirem-control-bg;
+  }
+
+  &-player {
+    aspect-ratio: ~"16 / 9";
+    background: #000;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .Asirem-EventPage-message { color: #fff; }
+  }
+
+  &-discussion {
+    padding: 20px;
+
+    h2, h3 { margin-top: 0; }
+    p { white-space: pre-line; }
+  }
+
+  &-chat {
+    grid-area: chat;
+    height: ~"min(80vh, 850px)";
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-chatHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid @asirem-surface-border;
+
+    h2 { margin: 0; font-size: 18px; }
+  }
+
+  &-chatBody {
+    position: relative;
+    display: flex;
+    flex: 1;
+    min-height: 0;
+
+    > .ChatChannel { flex: 1; min-width: 0; }
+    > .ChatThreadPanel {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: @asirem-control-bg;
+    }
+  }
+
+  &-message { padding: 16px; }
+
+  .Page-sidebar { display: none; }
+  .Page-content { width: 100%; }
+  .FofWidgets-sideNavAlt { display: none; }
+
+  @media @phone {
+    &-layout {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "main" "chat";
+    }
+
+    &-discussion { display: none; }
+    &-chat { height: 60vh; min-height: 400px; }
+  }
+}

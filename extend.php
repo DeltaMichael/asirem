@@ -17,13 +17,20 @@ return [
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less')
         ->route('/signup', 'signup')
-        ->route('/start', 'start'),
+        ->route('/start', 'start')
+        ->route('/event', 'event'),
 
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
         ->css(__DIR__.'/less/admin.less'),
 
     new Extend\Locales(__DIR__.'/locale'),
+
+    (new Extend\Settings())
+        ->serializeToForum('asiremEventTitle', 'deltamichael-asirem.event_title')
+        ->serializeToForum('asiremEventStream', 'deltamichael-asirem.event_stream')
+        ->serializeToForum('asiremEventDiscussion', 'deltamichael-asirem.event_discussion')
+        ->serializeToForum('asiremEventChannel', 'deltamichael-asirem.event_channel'),
 
     (new Extend\ApiResource(TagResource::class))
         ->fields(function () {

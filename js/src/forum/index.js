@@ -14,6 +14,7 @@ import AsiremTagsPage from './components/TagsPage';
 import { getSuperStickyDiscussions } from './components/FeaturedDiscussions';
 import SignupPage from './components/SignupPage';
 import StartPage from './components/StartPage';
+import EventPage from './components/EventPage';
 import ReactionUsersTooltip from './components/ReactionUsersTooltip';
 import { truncate } from 'flarum/common/utils/string';
 
@@ -38,150 +39,162 @@ extend(DiscussionControls, 'controls', function (items, discussion, context) {
   }
 });
 
-app.initializers.add('deltamichael-asirem', () => {
-  const PostReactionCounts = flarum.reg.get('fof-reactions', 'forum/components/PostReactionCounts');
-  const ReactionComponent = flarum.reg.get('fof-reactions', 'common/components/ReactionComponent');
+app.initializers.add(
+  'deltamichael-asirem',
+  () => {
+    const PostReactionCounts = flarum.reg.get('fof-reactions', 'forum/components/PostReactionCounts');
+    const ReactionComponent = flarum.reg.get('fof-reactions', 'common/components/ReactionComponent');
 
-  if (PostReactionCounts && ReactionComponent) {
-    const reactionTooltipMedia = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine)');
-    reactionTooltipMedia.addEventListener('change', () => m.redraw());
+    if (PostReactionCounts && ReactionComponent) {
+      const reactionTooltipMedia = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine)');
+      reactionTooltipMedia.addEventListener('change', () => m.redraw());
 
-    extend(ReactionComponent.prototype, 'view', function (vnode) {
-      if (this.attrs.asiremHideTitle) {
-        delete vnode.attrs.title;
-        delete vnode.attrs.asiremHideTitle;
-      }
-    });
-
-    extend(PostReactionCounts.prototype, 'view', function (vnode) {
-      if (!vnode || !reactionTooltipMedia.matches) return;
-
-      const buttons = vnode.children[0].children;
-      vnode.children[0].children = buttons.map((button) => {
-        const icon = button.children[0].children[0];
-        icon.attrs.asiremHideTitle = true;
-
-        return <ReactionUsersTooltip key={icon.attrs.reaction.id()} post={this.attrs.post} reaction={icon.attrs.reaction} button={button} />;
+      extend(ReactionComponent.prototype, 'view', function (vnode) {
+        if (this.attrs.asiremHideTitle) {
+          delete vnode.attrs.title;
+          delete vnode.attrs.asiremHideTitle;
+        }
       });
-    });
 
-    extend(CommentPost.prototype, 'oninit', function () {
-      this.subtree.check(() => this.attrs.post._asiremReactionTooltipRevision);
-      this.subtree.check(() => reactionTooltipMedia.matches);
-    });
-  }
+      extend(PostReactionCounts.prototype, 'view', function (vnode) {
+        if (!vnode || !reactionTooltipMedia.matches) return;
 
-  extend(CommentPost.prototype, 'footerItems', function (items) {
-    items.remove('reactionCounts');
-  });
+        const buttons = vnode.children[0].children;
+        vnode.children[0].children = buttons.map((button) => {
+          const icon = button.children[0].children[0];
+          icon.attrs.asiremHideTitle = true;
 
-  extend(CommentPost.prototype, 'actionItems', function (items) {
-    const post = this.attrs.post;
-    const counts = post.reactionCounts?.();
-
-    if (!PostReactionCounts || post.isHidden() || !counts || !Object.values(counts).some((count) => count > 0)) {
-      return;
-    }
-
-    items.add('reactionCounts', PostReactionCounts.component({ post }), 6);
-  });
-
-  extend(DiscussionListItem.prototype, 'oninit', function () {
-    const discussion = this.attrs.discussion;
-    const firstPostLink = discussion.rawRelationship('firstPost');
-    const discussionList = app.discussions;
-
-    if (app.currentTag() && firstPostLink && !discussion.firstPost() && !discussionList._asiremRefreshingFirstPosts) {
-      discussionList._asiremRefreshingFirstPosts = true;
-      discussionList
-        .refresh()
-        .catch(() => {})
-        .finally(() => {
-          discussionList._asiremRefreshingFirstPosts = false;
+          return <ReactionUsersTooltip key={icon.attrs.reaction.id()} post={this.attrs.post} reaction={icon.attrs.reaction} button={button} />;
         });
-    }
-  });
-
-  extend(TagHero.prototype, 'bodyItems', function (items) {
-    const imageUrl = this.attrs.model.attribute('asiremArtworkUrl');
-
-    if (imageUrl) {
-      items.add('asiremArtwork', <img className="Asirem-TagHero-artwork" src={imageUrl} alt="" />, 70);
-    }
-  });
-
-  extend(TagLinkButton.prototype, 'linkItems', function (items, tag) {
-    const imageUrl = tag?.attribute('asiremArtworkUrl');
-
-    if (imageUrl) {
-      items.remove('icon');
-      items.add('icon', <img className="Button-icon Asirem-TagArtwork" src={imageUrl} alt="" />, 100);
-    }
-  });
-
-  extend(IndexSidebar.prototype, 'navItems', function (items) {
-    items.add(
-      'startHere',
-      <LinkButton href={app.route('start')} icon="fas fa-compass">
-        {app.translator.trans('deltamichael-asirem.forum.start.nav')}
-      </LinkButton>,
-      110
-    );
-  });
-
-  extend(TagsPage.prototype, 'oninit', function () {
-    this.featuredDiscussions = [];
-
-    app.tagList
-      .load(['lastPostedUser'])
-      .then((tags) => {
-        this.tags = sortTags(tags.filter((tag) => !tag.isChild()));
-        m.redraw();
-      })
-      .catch(() => {});
-
-    app.store
-      .find('discussions', {
-        filter: { stickiest: true },
-        sort: '-lastPostedAt',
-        page: { limit: 20 },
-        include: 'tags,firstPost',
-      })
-      .then((discussions) => {
-        this.featuredDiscussions = getSuperStickyDiscussions(discussions);
-        m.redraw();
-      })
-      .catch(() => {
-        this.featuredDiscussions = [];
-        m.redraw();
       });
-  });
 
-  extend(DiscussionListItem.prototype, 'view', function (vnode) {
-    if (this.attrs.discussion.tags() && this.attrs.discussion.tags()[0] && this.attrs.discussion.tags()[0].color()) {
-      vnode.attrs.style = { '--tag-color': this.attrs.discussion.tags()[0].color(), ...(vnode.attrs.style || {}) };
+      extend(CommentPost.prototype, 'oninit', function () {
+        this.subtree.check(() => this.attrs.post._asiremReactionTooltipRevision);
+        this.subtree.check(() => reactionTooltipMedia.matches);
+      });
     }
 
-    if (this.attrs.discussion.isUnread()) {
-      vnode.attrs.className += ' DiscussionListItem--unread';
-    }
-  });
+    extend(CommentPost.prototype, 'footerItems', function (items) {
+      items.remove('reactionCounts');
+    });
 
-  extend(DiscussionListItem.prototype, 'infoItems', function (items) {
-    if (!items.has('excerpt')) {
-      const firstPost = this.attrs.discussion.firstPost();
-      const content = firstPost?.contentPlain();
+    extend(CommentPost.prototype, 'actionItems', function (items) {
+      const post = this.attrs.post;
+      const counts = post.reactionCounts?.();
 
-      if (content) {
-        const excerpt = truncate(content, 175);
-
-        items.add('excerpt', <div>{excerpt}</div>, -100);
+      if (!PostReactionCounts || post.isHidden() || !counts || !Object.values(counts).some((count) => count > 0)) {
+        return;
       }
-    }
-  });
 
-  override(TagsPage.prototype, 'view', AsiremTagsPage.prototype.view);
+      items.add('reactionCounts', PostReactionCounts.component({ post }), 6);
+    });
 
-  app.routes['signup'] = { path: '/signup', component: SignupPage };
-  app.routes['start'] = { path: '/start', component: StartPage };
-}, -100);
+    extend(DiscussionListItem.prototype, 'oninit', function () {
+      const discussion = this.attrs.discussion;
+      const firstPostLink = discussion.rawRelationship('firstPost');
+      const discussionList = app.discussions;
+
+      if (app.currentTag() && firstPostLink && !discussion.firstPost() && !discussionList._asiremRefreshingFirstPosts) {
+        discussionList._asiremRefreshingFirstPosts = true;
+        discussionList
+          .refresh()
+          .catch(() => {})
+          .finally(() => {
+            discussionList._asiremRefreshingFirstPosts = false;
+          });
+      }
+    });
+
+    extend(TagHero.prototype, 'bodyItems', function (items) {
+      const imageUrl = this.attrs.model.attribute('asiremArtworkUrl');
+
+      if (imageUrl) {
+        items.add('asiremArtwork', <img className="Asirem-TagHero-artwork" src={imageUrl} alt="" />, 70);
+      }
+    });
+
+    extend(TagLinkButton.prototype, 'linkItems', function (items, tag) {
+      const imageUrl = tag?.attribute('asiremArtworkUrl');
+
+      if (imageUrl) {
+        items.remove('icon');
+        items.add('icon', <img className="Button-icon Asirem-TagArtwork" src={imageUrl} alt="" />, 100);
+      }
+    });
+
+    extend(IndexSidebar.prototype, 'navItems', function (items) {
+      items.add(
+        'startHere',
+        <LinkButton href={app.route('start')} icon="fas fa-compass">
+          {app.translator.trans('deltamichael-asirem.forum.start.nav')}
+        </LinkButton>,
+        110
+      );
+      items.add(
+        'eventHub',
+        <LinkButton href={app.route('event')} icon="fas fa-video">
+          {app.translator.trans('deltamichael-asirem.forum.event.nav')}
+        </LinkButton>,
+        105
+      );
+    });
+
+    extend(TagsPage.prototype, 'oninit', function () {
+      this.featuredDiscussions = [];
+
+      app.tagList
+        .load(['lastPostedUser'])
+        .then((tags) => {
+          this.tags = sortTags(tags.filter((tag) => !tag.isChild()));
+          m.redraw();
+        })
+        .catch(() => {});
+
+      app.store
+        .find('discussions', {
+          filter: { stickiest: true },
+          sort: '-lastPostedAt',
+          page: { limit: 20 },
+          include: 'tags,firstPost',
+        })
+        .then((discussions) => {
+          this.featuredDiscussions = getSuperStickyDiscussions(discussions);
+          m.redraw();
+        })
+        .catch(() => {
+          this.featuredDiscussions = [];
+          m.redraw();
+        });
+    });
+
+    extend(DiscussionListItem.prototype, 'view', function (vnode) {
+      if (this.attrs.discussion.tags() && this.attrs.discussion.tags()[0] && this.attrs.discussion.tags()[0].color()) {
+        vnode.attrs.style = { '--tag-color': this.attrs.discussion.tags()[0].color(), ...(vnode.attrs.style || {}) };
+      }
+
+      if (this.attrs.discussion.isUnread()) {
+        vnode.attrs.className += ' DiscussionListItem--unread';
+      }
+    });
+
+    extend(DiscussionListItem.prototype, 'infoItems', function (items) {
+      if (!items.has('excerpt')) {
+        const firstPost = this.attrs.discussion.firstPost();
+        const content = firstPost?.contentPlain();
+
+        if (content) {
+          const excerpt = truncate(content, 175);
+
+          items.add('excerpt', <div>{excerpt}</div>, -100);
+        }
+      }
+    });
+
+    override(TagsPage.prototype, 'view', AsiremTagsPage.prototype.view);
+
+    app.routes['signup'] = { path: '/signup', component: SignupPage };
+    app.routes['start'] = { path: '/start', component: StartPage };
+    app.routes['event'] = { path: '/event', component: EventPage };
+  },
+  -100
+);

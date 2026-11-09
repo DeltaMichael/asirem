@@ -1,5 +1,14 @@
 deltamichael-asirem:
   admin:
+    event:
+      event_title: Заглавие на страницата за събитието
+      event_title_help: Незадължително заглавие за страницата.
+      event_stream: Адрес на iframe за излъчването
+      event_stream_help: Въведете пълния HTTP или HTTPS адрес от src на iframe, а не целия HTML код. Доставчикът трябва да разрешава вграждане.
+      event_discussion: Дискусия за събитието
+      event_discussion_help: Въведете ID или адрес на дискусия от този форум.
+      event_channel: Чат канал за събитието
+      event_channel_help: Въведете ID или адрес на чат канал от този форум. Изисква разширението Chat.
     tag_artwork:
       label: Изображение за банера на темата
       help: 'Изберете JPEG, PNG, GIF или BMP изображение до 2 MB. То ще бъде изрязано като квадрат.'
@@ -9,6 +18,22 @@ deltamichael-asirem:
       loading: Запазване на изображението...
       error: Изображението не може да бъде запазено. Проверете файла и опитайте отново.
   forum:
+    event:
+      nav: Събитие
+      title: Събитие
+      stream: Излъчване на събитието
+      stream_unavailable: Не е зададен валиден адрес за излъчване.
+      discussion: Дискусия за събитието
+      discussion_loading: Зареждане на дискусията...
+      discussion_unconfigured: Не е зададена валидна дискусия.
+      discussion_error: Дискусията не може да бъде заредена или не е достъпна.
+      open_discussion: Отвори дискусията
+      chat: Чат за събитието
+      chat_loading: Зареждане на чата...
+      chat_unconfigured: Не е зададен валиден чат канал.
+      chat_unavailable: Чатът не е достъпен. Влезте в профила си и проверете дали чатът е включен за него.
+      chat_error: Чат каналът не може да бъде зареден или не е достъпен.
+      open_chat: Отвори чата
     reactions:
       loading: Зареждане на реакциите...
       unavailable: Нямате разрешение да видите кой е реагирал.
