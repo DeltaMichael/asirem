@@ -25,11 +25,11 @@ deltamichael-asirem:
       back_to_forum: Обратно към форума
       stream: Излъчване на събитието
       stream_unavailable: Не е зададен валиден адрес за излъчване.
-      discussion: Дискусия за събитието
-      discussion_loading: Зареждане на дискусията...
-      discussion_unconfigured: Не е зададена валидна дискусия.
+      discussion: Тема за събитието
+      discussion_loading: Зареждане на темата...
+      discussion_unconfigured: Не е зададена валидна тема.
       discussion_error: Дискусията не може да бъде заредена или не е достъпна.
-      open_discussion: Отвори дискусията
+      open_discussion: Отвори темата
       chat: Чат за събитието
       chat_loading: Зареждане на чата...
       chat_unconfigured: Не е зададен валиден чат канал.
