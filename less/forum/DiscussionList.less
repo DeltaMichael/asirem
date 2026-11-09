@@ -90,10 +90,12 @@
 .App {
   .DiscussionListItem {
     &-info {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      position: static;
+      display: contents;
+    }
+
+    &-info > li {
+      grid-column-start: 1;
+      grid-column-end: -1;
     }
 
     &-title {
@@ -101,7 +103,9 @@
       font-size: 15px;
       font-weight: 600;
       line-height: 1.4;
-      padding-right: 100px;
+      grid-column: 1;
+      grid-row: 1;
+      min-width: 0;
     }
 
     .DiscussionListItem-title {
@@ -114,29 +118,31 @@
       padding: 0;
       margin: 0;
       position: static;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) fit-content(45%);
+      column-gap: 8px;
+      align-items: start;
     }
 
     &-info > .item-excerpt {
-      order: 2;
-      flex: 0 0 100%;
+      grid-row: 3;
       width: 100%;
     }
 
     &-info > .item-tags {
       position: static;
-      order: 1;
-      flex: 0 0 100%;
-      margin: 4px 0 0;
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0;
       max-width: none;
       white-space: normal;
+      overflow: visible;
       -webkit-mask-image: none;
     }
 
     &-info > .item-terminalPost {
-      order: 3;
-      flex: 0 0 100%;
-      text-align: right;
-      margin-top: 4px;
+      grid-row: 2;
+      text-align: left;
     }
 
     &-badges {
@@ -169,17 +175,16 @@
     &-content {
       position: relative;
       display: grid;
-      grid-template-columns: 50px minmax(0, 1fr);
-      grid-template-areas: "author main";
+      grid-template-columns: 50px minmax(0, 1fr) max-content;
+      grid-template-areas: "author main stats";
       align-items: start;
       column-gap: 12px;
-      padding: 14px 16px;
+      padding: 14px 60px 14px 16px;
     }
 
     &-stats {
-      position: absolute;
-      top: 14px;
-      right: 60px;
+      grid-area: stats;
+      position: static;
       width: auto;
       margin: 0;
       padding: 0;
@@ -210,8 +215,8 @@
     }
 
     &-content {
-      grid-template-columns: 40px minmax(0, 1fr);
-      grid-template-areas: "author main";
+      grid-template-columns: 40px minmax(0, 1fr) max-content;
+      grid-template-areas: "author main stats";
       column-gap: 12px;
       padding: 12px;
     }
@@ -230,12 +235,6 @@
 
     &-stats {
       align-items: flex-end;
-      top: 12px;
-      right: 12px;
-    }
-
-    &-title {
-      padding-right: 42px;
     }
 
     &-info {
