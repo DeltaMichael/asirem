@@ -7,6 +7,12 @@
   box-shadow: 0 1px 2px color-mix(in srgb, var(--shadow-color) 6%, transparent);
 }
 
+@media @phone {
+  .Post {
+    padding-right: var(--post-padding);
+  }
+}
+
 .PostStream-item {
   &:not(:last-child) {
     border-bottom: none;
