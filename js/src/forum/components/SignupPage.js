@@ -1,6 +1,7 @@
 import Component from 'flarum/common/Component';
 import Button from 'flarum/common/components/Button';
 import Stream from 'flarum/common/utils/Stream';
+import { redirectToStart } from '../utils/registration';
 
 export default class SignupPage extends Component {
     oninit(vnode) {
@@ -115,7 +116,7 @@ export default class SignupPage extends Component {
             }); 
         })
         .then(() => {
-            window.location.href = '/';
+            redirectToStart();
         }).catch((e) => {
             this.loading = false;
             this.error = e.response?.errors?.[0]?.detail || 'Регистрацията не беше успешна ;(';

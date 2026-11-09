@@ -7,6 +7,7 @@ import DiscussionControls from 'flarum/forum/utils/DiscussionControls';
 import DiscussionListState from 'flarum/forum/states/DiscussionListState';
 import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import HeaderSecondary from 'flarum/forum/components/HeaderSecondary';
+import Navigation from 'flarum/common/components/Navigation';
 import LinkButton from 'flarum/common/components/LinkButton';
 import TagsPage from 'ext:flarum/tags/forum/components/TagsPage';
 import TagHero from 'ext:flarum/tags/forum/components/TagHero';
@@ -23,6 +24,8 @@ import ReactionUsersTooltip from './components/ReactionUsersTooltip';
 import { isNavigationTagVisible } from './utils/tagNavigation';
 import { newsTagId } from './utils/newsFeed';
 import newsUnread from './states/newsUnread';
+import { submitRegistrationModal } from './utils/registration';
+import extractText from 'flarum/common/utils/extractText';
 import { truncate } from 'flarum/common/utils/string';
 
 extend(DiscussionListState.prototype, 'requestParams', function (params) {
@@ -187,6 +190,23 @@ app.initializers.add(
       }
     });
 
+    extend(Navigation.prototype, 'items', function (items) {
+      if (this.attrs.drawer && !app.session.user && app.forum.attribute('allowSignUp')) {
+        items.add(
+          'asiremMobileSignUp',
+          <Button
+            className="Button Asirem-MobileSignUp"
+            icon="fas fa-user-plus"
+            aria-label={extractText(app.translator.trans('core.forum.header.sign_up_link'))}
+            onclick={() => app.modal.show(() => import('flarum/forum/components/SignUpModal'))}
+          >
+            {app.translator.trans('core.forum.header.sign_up_link')}
+          </Button>,
+          70
+        );
+      }
+    });
+
     override(Discussion.prototype, 'save', function (original, data, ...args) {
       const request = original(data, ...args);
       if (data?.lastReadPostNumber) {
@@ -250,6 +270,10 @@ app.initializers.add(
     });
 
     override(TagsPage.prototype, 'view', AsiremTagsPage.prototype.view);
+
+    override('flarum/forum/components/SignUpModal', 'onsubmit', function (original, event) {
+      return submitRegistrationModal(this, event);
+    });
 
     app.routes['signup'] = { path: '/signup', component: SignupPage };
     app.routes['start'] = { path: '/start', component: StartPage };

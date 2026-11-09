@@ -61,7 +61,7 @@ deltamichael-asirem:
       error: Could not load reactions.
     start:
       nav: Start here
-      eyebrow: New to BWS?
+      eyebrow: New to BWZ?
       title: Start here
       description: Find your topics, get to know the community, and join the conversation.
       browse_discussions: Browse latest discussions
@@ -76,6 +76,12 @@ deltamichael-asirem:
       conversations_title: Join a conversation
       conversations_description: Catch up on what's happening and add your voice to a current discussion.
       conversations_link: See latest discussions
+      chat_title: Join the chat
+      chat_description: Say 'Hi' and introduce yourself
+      chat_link: Enter chat
+      event_title: Watch live with us
+      event_description: Watch live events with the community and join the discussion.
+      event_link: Watch live
     featured:
       title: Featured discussions
       description: Chosen by the moderators

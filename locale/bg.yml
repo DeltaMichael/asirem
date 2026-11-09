@@ -61,7 +61,7 @@ deltamichael-asirem:
       error: Реакциите не могат да бъдат заредени.
     start:
       nav: Започни оттук
-      eyebrow: За първи път в BWS?
+      eyebrow: За първи път в BWZ?
       title: Започни оттук
       description: Открий своите теми, запознай се с общността и се включи в разговора.
       browse_discussions: Разгледай последните теми
@@ -76,6 +76,12 @@ deltamichael-asirem:
       conversations_title: Включи се в разговор
       conversations_description: Виж какво се обсъжда и добави мнението си към актуална тема.
       conversations_link: Към последните теми
+      chat_title: Включи се в чата
+      chat_description: Кажи 'Здравей' и се представи
+      chat_link: Влез в чата
+      event_title: Гледай на живо с нас
+      event_description: Гледай събития на живо и се включи в дискусията.
+      event_link: Гледай на живо
     featured:
       title: Избрани теми
       description: Подбрани от модераторите

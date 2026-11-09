@@ -42,6 +42,16 @@ export default class StartPage extends Component {
               <span className="Asirem-StartPage-stepNumber" aria-hidden="true">
                 02
               </span>
+              <h3>{app.translator.trans('deltamichael-asirem.forum.start.chat_title')}</h3>
+              <p>{app.translator.trans('deltamichael-asirem.forum.start.chat_description')}</p>
+              <Link href="/chat/c/1" className="Asirem-StartPage-stepLink">
+                {app.translator.trans('deltamichael-asirem.forum.start.chat_link')}
+              </Link>
+            </li>
+            <li className="Asirem-StartPage-step">
+              <span className="Asirem-StartPage-stepNumber" aria-hidden="true">
+                03
+              </span>
               <h3>{app.translator.trans('deltamichael-asirem.forum.start.tags_title')}</h3>
               <p>{app.translator.trans('deltamichael-asirem.forum.start.tags_description')}</p>
               <Link href="/tags" className="Asirem-StartPage-stepLink">
@@ -50,7 +60,7 @@ export default class StartPage extends Component {
             </li>
             <li className="Asirem-StartPage-step">
               <span className="Asirem-StartPage-stepNumber" aria-hidden="true">
-                03
+                04
               </span>
               <h3>{app.translator.trans('deltamichael-asirem.forum.start.conversations_title')}</h3>
               <p>{app.translator.trans('deltamichael-asirem.forum.start.conversations_description')}</p>
@@ -58,6 +68,17 @@ export default class StartPage extends Component {
                 {app.translator.trans('deltamichael-asirem.forum.start.conversations_link')}
               </Link>
             </li>
+            <li className="Asirem-StartPage-step">
+              <span className="Asirem-StartPage-stepNumber" aria-hidden="true">
+                05
+              </span>
+              <h3>{app.translator.trans('deltamichael-asirem.forum.start.event_title')}</h3>
+              <p>{app.translator.trans('deltamichael-asirem.forum.start.event_description')}</p>
+              <Link href="/event" className="Asirem-StartPage-stepLink">
+                {app.translator.trans('deltamichael-asirem.forum.start.event_link')}
+              </Link>
+            </li>
+
           </ol>
         </main>
       </PageStructure>
