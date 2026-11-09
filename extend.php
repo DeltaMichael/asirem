@@ -3,10 +3,12 @@
 namespace Deltamichael\Asirem;
 
 use Flarum\Api\Context;
+use Flarum\Api\Resource\ForumResource;
 use Flarum\Api\Schema;
 use Flarum\Discussion\Discussion;
 use Flarum\Discussion\DiscussionRepository;
 use Flarum\Extend;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\Tags\Api\Resource\TagResource;
 use Flarum\Tags\Tag;
 
@@ -18,7 +20,7 @@ return [
         ->css(__DIR__.'/less/forum.less')
         ->route('/signup', 'signup')
         ->route('/start', 'start')
-        ->route('/event', 'event'),
+        ->route('/event', 'event', Content\RequireEventAccess::class),
 
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
@@ -26,11 +28,24 @@ return [
 
     new Extend\Locales(__DIR__.'/locale'),
 
-    (new Extend\Settings())
-        ->serializeToForum('asiremEventTitle', 'deltamichael-asirem.event_title')
-        ->serializeToForum('asiremEventStream', 'deltamichael-asirem.event_stream')
-        ->serializeToForum('asiremEventDiscussion', 'deltamichael-asirem.event_discussion')
-        ->serializeToForum('asiremEventChannel', 'deltamichael-asirem.event_channel'),
+    (new Extend\ApiResource(ForumResource::class))
+        ->fields(function () {
+            $settings = resolve(SettingsRepositoryInterface::class);
+            $fields = [];
+
+            foreach ([
+                'asiremEventTitle' => 'event_title',
+                'asiremEventStream' => 'event_stream',
+                'asiremEventDiscussion' => 'event_discussion',
+                'asiremEventChannel' => 'event_channel',
+            ] as $attribute => $key) {
+                $fields[] = Schema\Str::make($attribute)
+                    ->visible(fn ($model, Context $context) => ! $context->getActor()->isGuest())
+                    ->get(fn () => $settings->get('deltamichael-asirem.'.$key));
+            }
+
+            return $fields;
+        }),
 
     (new Extend\ApiResource(TagResource::class))
         ->fields(function () {

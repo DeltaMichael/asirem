@@ -1,5 +1,6 @@
 import Component from 'flarum/common/Component';
 import Link from 'flarum/common/components/Link';
+import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import PageStructure from 'flarum/forum/components/PageStructure';
 import { truncate } from 'flarum/common/utils/string';
 import { configuredId, streamUrl } from '../utils/eventSettings';
@@ -7,6 +8,7 @@ import { configuredId, streamUrl } from '../utils/eventSettings';
 export default class EventPage extends Component {
   oninit(vnode) {
     super.oninit(vnode);
+    if (!app.session.user) return;
     const baseUrl = app.forum.attribute('baseUrl');
     this.discussionId = configuredId(app.forum.attribute('asiremEventDiscussion'), /^\/d\/([1-9]\d*)(?:[/-]|$)/, baseUrl, window.location.href);
     this.channelId = configuredId(app.forum.attribute('asiremEventChannel'), /^\/chat\/c\/([1-9]\d*)(?:[/-]|$)/, baseUrl, window.location.href);
@@ -121,8 +123,20 @@ export default class EventPage extends Component {
 
   view() {
     const t = (key) => app.translator.trans(`deltamichael-asirem.forum.event.${key}`);
+    if (!app.session.user) {
+      return (
+        <PageStructure className="Asirem-EventPage" sidebar={() => <IndexSidebar />}>
+          <main className="Asirem-EventPage-content">
+            <p>{t('members_only')}</p>
+            <Link href={app.route('index')} className="Button">
+              {t('back_to_forum')}
+            </Link>
+          </main>
+        </PageStructure>
+      );
+    }
     return (
-      <PageStructure className="Asirem-EventPage">
+      <PageStructure className="Asirem-EventPage" sidebar={() => <IndexSidebar />}>
         <main className="Asirem-EventPage-content">
           <h1>{this.title}</h1>
           <div className="Asirem-EventPage-layout">

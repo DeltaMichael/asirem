@@ -130,13 +130,15 @@ app.initializers.add(
         </LinkButton>,
         110
       );
-      items.add(
-        'eventHub',
-        <LinkButton href={app.route('event')} icon="fas fa-video">
-          {app.translator.trans('deltamichael-asirem.forum.event.nav')}
-        </LinkButton>,
-        105
-      );
+      if (app.session.user) {
+        items.add(
+          'eventHub',
+          <LinkButton href={app.route('event')} icon="fas fa-video">
+            {app.translator.trans('deltamichael-asirem.forum.event.nav')}
+          </LinkButton>,
+          105
+        );
+      }
     });
 
     extend(TagsPage.prototype, 'oninit', function () {

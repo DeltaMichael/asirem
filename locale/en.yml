@@ -21,6 +21,8 @@ deltamichael-asirem:
     event:
       nav: Event hub
       title: Event hub
+      members_only: The event hub is available to registered users only. Please log in to view it.
+      back_to_forum: Back to the forum
       stream: Event stream
       stream_unavailable: No valid event stream has been configured.
       discussion: Event discussion

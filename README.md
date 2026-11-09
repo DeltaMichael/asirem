@@ -31,11 +31,11 @@ names to display; phone and touch-only layouts retain the standard controls.
 
 ### Event hub
 
-The event hub is available at `/event` and in the forum navigation. Configure
+The event hub is available to registered users at `/event` and in the forum navigation. Configure
 its title, stream iframe source URL, discussion ID or forum URL, and chat channel
 ID or forum URL in the Asirem extension settings. The stream provider must allow
-embedding on the forum's domain. The stream URL is public and should not contain
-credentials or secrets. The hub accepts HTTP or HTTPS iframe source URLs without
+embedding on the forum's domain. The stream URL is visible to registered users
+and should not contain credentials or secrets. The hub accepts HTTP or HTTPS iframe source URLs without
 restricting the provider. The player sends the forum origin to cross-origin
 providers when the browser permits it, as required by some embedded players.
 
