@@ -52,6 +52,15 @@ extend(DiscussionControls, 'controls', function (items, discussion, context) {
 app.initializers.add(
   'deltamichael-asirem',
   () => {
+    document.addEventListener('selectionchange', () => {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed) return;
+
+      document.querySelectorAll('.PostQuoteButton').forEach((button) => {
+        button.style.display = 'none';
+      });
+    });
+
     const PostReactionCounts = flarum.reg.get('fof-reactions', 'forum/components/PostReactionCounts');
     const ReactionComponent = flarum.reg.get('fof-reactions', 'common/components/ReactionComponent');
 
