@@ -80,6 +80,22 @@
     }
   }
 
+  &-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 280px;
+    border: 1px solid @asirem-surface-border;
+    border-radius: @border-radius;
+    background: @asirem-control-bg;
+
+    @media @phone {
+      height: 240px;
+      border-radius: 0;
+    }
+  }
+
   &-card {
     display: grid;
     flex: 0 0 100%;

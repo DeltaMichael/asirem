@@ -8,7 +8,7 @@ import humanTime from 'flarum/common/helpers/humanTime';
 import tagIcon from 'ext:flarum/tags/common/helpers/tagIcon';
 import tagLabel from 'ext:flarum/tags/common/helpers/tagLabel';
 import sortTags from 'ext:flarum/tags/common/utils/sortTags';
-import FeaturedDiscussions, { getSuperStickyDiscussions } from './FeaturedDiscussions';
+import FeaturedDiscussions, { featuredDiscussionsLoading } from './FeaturedDiscussions';
 import { isNavigationTagVisible } from '../utils/tagNavigation';
 
 export default class TagsPage {
@@ -38,7 +38,9 @@ export default class TagsPage {
         )}
       >
         <div className="TagsPage-content">
-          {this.featuredDiscussions.length > 0 && <FeaturedDiscussions discussions={this.featuredDiscussions} />}
+          {this.featuredDiscussionsLoading
+            ? featuredDiscussionsLoading()
+            : this.featuredDiscussions.length > 0 && <FeaturedDiscussions discussions={this.featuredDiscussions} />}
           {onlineUsersWidget && <div className="Asirem-TagsPage-onlineUsers Asirem-TagsPage-onlineUsers--mobile">{onlineUsers()}</div>}
           <ul className="Asirem-TagTiles">
             {pinned.map((tag) => {

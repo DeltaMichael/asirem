@@ -138,7 +138,6 @@ export default class EventPage extends Component {
     return (
       <PageStructure className="Asirem-EventPage" sidebar={() => <IndexSidebar />}>
         <main className="Asirem-EventPage-content">
-          <h1>{this.title}</h1>
           <div className="Asirem-EventPage-layout">
             <div className="Asirem-EventPage-main">
               <section className="Asirem-EventPage-player" aria-label={t('stream')}>
@@ -154,6 +153,7 @@ export default class EventPage extends Component {
                   <p className="Asirem-EventPage-message">{t('stream_unavailable')}</p>
                 )}
               </section>
+              <h1 className="Asirem-EventPage-title">{this.title}</h1>
               <section className="Asirem-EventPage-discussion">
                 <h2>{t('discussion')}</h2>
                 {this.discussionView()}

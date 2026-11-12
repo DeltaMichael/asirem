@@ -1,12 +1,37 @@
 import Component from 'flarum/common/Component';
 import Link from 'flarum/common/components/Link';
+import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import humanTime from 'flarum/common/helpers/humanTime';
 import { DEFAULT_PREVIEW_IMAGE, getFirstPostImages } from '../utils/previewImages';
 
+function featuredHeader(controls = null) {
+  return (
+    <header className="Asirem-FeaturedDiscussions-header">
+      <div>
+        <h2 id="Asirem-FeaturedDiscussions-title">{app.translator.trans('deltamichael-asirem.forum.featured.title')}</h2>
+        <p>{app.translator.trans('deltamichael-asirem.forum.featured.description')}</p>
+      </div>
+      {controls}
+      <Link href={app.route('index')} className="Asirem-FeaturedDiscussions-all">
+        {app.translator.trans('deltamichael-asirem.forum.featured.view_all')}
+      </Link>
+    </header>
+  );
+}
+
+export function featuredDiscussionsLoading() {
+  return (
+    <section className="Asirem-FeaturedDiscussions" aria-labelledby="Asirem-FeaturedDiscussions-title">
+      {featuredHeader()}
+      <div className="Asirem-FeaturedDiscussions-loading">
+        <LoadingIndicator />
+      </div>
+    </section>
+  );
+}
+
 export function getSuperStickyDiscussions(discussions, limit = 20) {
-  return discussions
-    .filter((discussion) => typeof discussion.isStickiest === 'function' && discussion.isStickiest())
-    .slice(0, limit);
+  return discussions.filter((discussion) => typeof discussion.isStickiest === 'function' && discussion.isStickiest()).slice(0, limit);
 }
 
 export default class FeaturedDiscussions extends Component {
@@ -130,14 +155,8 @@ export default class FeaturedDiscussions extends Component {
         onfocusin={() => this.pauseAutoplay()}
         onfocusout={(event) => !event.currentTarget.contains(event.relatedTarget) && this.resumeAutoplay()}
       >
-        <header className="Asirem-FeaturedDiscussions-header">
-          <div>
-            <h2 id="Asirem-FeaturedDiscussions-title">
-              {app.translator.trans('deltamichael-asirem.forum.featured.title')}
-            </h2>
-            <p>{app.translator.trans('deltamichael-asirem.forum.featured.description')}</p>
-          </div>
-          {discussions.length > 1 && (
+        {featuredHeader(
+          discussions.length > 1 && (
             <div className="Asirem-FeaturedDiscussions-controls">
               <span className="Asirem-FeaturedDiscussions-counter">
                 {app.translator.trans('deltamichael-asirem.forum.featured.counter', {
@@ -164,11 +183,8 @@ export default class FeaturedDiscussions extends Component {
                 <i className="icon fas fa-chevron-right" aria-hidden="true"></i>
               </button>
             </div>
-          )}
-          <Link href={app.route('index')} className="Asirem-FeaturedDiscussions-all">
-            {app.translator.trans('deltamichael-asirem.forum.featured.view_all')}
-          </Link>
-        </header>
+          )
+        )}
 
         <div
           className="Asirem-FeaturedDiscussions-viewport"
@@ -206,7 +222,9 @@ export default class FeaturedDiscussions extends Component {
           {imageUrl ? (
             <img src={imageUrl} alt={images.length ? discussion.title() : app.forum.attribute('title')} />
           ) : (
-            <span className="Asirem-FeaturedDiscussions-defaultMark" aria-hidden="true">BWS</span>
+            <span className="Asirem-FeaturedDiscussions-defaultMark" aria-hidden="true">
+              BWS
+            </span>
           )}
           {images.length > 1 && (
             <span className="Asirem-FeaturedDiscussions-photoCount">
@@ -220,10 +238,7 @@ export default class FeaturedDiscussions extends Component {
           <p className="Asirem-FeaturedDiscussions-excerpt">{discussion.firstPost()?.contentPlain?.()}</p>
           <div className="Asirem-FeaturedDiscussions-meta">
             <span>
-              {replyCount}{' '}
-              {app.translator.trans(
-                `deltamichael-asirem.forum.featured.${replyCount === 1 ? 'one_reply' : 'many_replies'}`
-              )}
+              {replyCount} {app.translator.trans(`deltamichael-asirem.forum.featured.${replyCount === 1 ? 'one_reply' : 'many_replies'}`)}
             </span>
             {lastPostedAt && <time datetime={lastPostedAt}>{humanTime(lastPostedAt)}</time>}
           </div>

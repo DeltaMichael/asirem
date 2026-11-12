@@ -220,6 +220,7 @@ app.initializers.add(
 
     extend(TagsPage.prototype, 'oninit', function () {
       this.featuredDiscussions = [];
+      this.featuredDiscussionsLoading = true;
 
       app.tagList
         .load(['lastPostedUser'])
@@ -238,10 +239,13 @@ app.initializers.add(
         })
         .then((discussions) => {
           this.featuredDiscussions = getSuperStickyDiscussions(discussions);
+          this.featuredDiscussionsLoading = false;
           m.redraw();
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error('Failed to load featured discussions', error);
           this.featuredDiscussions = [];
+          this.featuredDiscussionsLoading = false;
           m.redraw();
         });
     });
